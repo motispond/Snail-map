@@ -193,7 +193,42 @@
   .hp{position:absolute; left:-9999px}
   .sent{margin:14px 0 0; padding:12px 16px; background:var(--pink); border-radius:6px; font-weight:700}
 
-  footer{margin:36px 0 40px; padding-top:18px; border-top:3px dotted var(--dots); font-size:15px}
+  
+  /* Mobile responsive */
+  @media (max-width:768px){
+    h1{font-size:clamp(28px,6vw,56px)}
+    #screen-archive{width:100vw}
+    .map-info{width:calc(100vw - 50px); max-width:100%; left:25px; bottom:80px}
+    .map-area{top:70px}
+    .card .where{font-size:11px}
+    .card .glaze{font-size:11px}
+    .card .meta .no{font-size:13px}
+    .cards{grid-template-columns:1fr}
+    .field input[type=text], .field textarea{padding:10px 12px; font-size:16px}
+    .send button[type=submit]{padding:12px 20px; font-size:14px}
+  }
+
+  @media (max-width:480px){
+    h1{font-size:clamp(24px,5vw,44px)}
+    .map-info{bottom:90px; width:calc(100vw - 40px); left:20px; padding:12px 14px}
+    .map-info .stat{font-size:13px}
+    .map-info .desc{font-size:12px; line-height:1.4}
+    .lead{font-size:12px}
+    .card{padding:12px 10px 16px}
+    .card .note{font-size:12px}
+    #screen-archive{top:60px; bottom:60px}
+    .bottom-bar{height:50px}
+    .bar-btn{font-size:12px}
+    .field label{font-size:12px}
+    .field .hint{font-size:11px}
+    .send h3{font-size:clamp(20px,5vw,32px); margin:0 0 10px}
+    .send p.intro, .send p.or{font-size:13px}
+    .send a.dm{font-weight:700}
+    .field input[type=file]{font-size:13px}
+  }
+
+
+    footer{margin:36px 0 40px; padding-top:18px; border-top:3px dotted var(--dots); font-size:15px}
   footer p{margin:0 0 10px; max-width:56ch}
   footer a{color:var(--pink); font-weight:700; text-decoration:none}
   .err{color:var(--white); font-size:14px; background:var(--pink); padding:8px 12px; border-radius:4px}
