@@ -63,7 +63,7 @@
   #screen-map .map-area{order:2; flex:1}
   #screen-map .bottom-bar{order:3}
   #screen-archive{
-    position:fixed !important; right:0; top:0; bottom:0; width:50vw; max-width:100vw;
+    position:fixed !important; right:0; top:0; bottom:0; width:min(94vw,640px); max-width:100vw;
     flex:none !important; z-index:10; overflow-y:auto;
     background:var(--olive); padding-top:0;
     transform:translateX(100%); transition:transform 1.8s cubic-bezier(0.34,1.56,0.64,1);
@@ -149,28 +149,28 @@
 
   /* cards — the tear-off strip */
   .cards{display:grid; grid-template-columns:1fr; gap:0; padding:0; margin:0; list-style:none; border-top:3px dotted var(--dots)}
-  @media (min-width:520px){ .cards{grid-template-columns:1fr 1fr} .card:nth-child(odd){border-right:3px dotted var(--dots)} }
+  @media (min-width:420px){ .cards{grid-template-columns:1fr 1fr} .card:nth-child(odd){border-right:3px dotted var(--dots)} }
   .card{border-bottom:3px dotted var(--dots); padding:14px 0 18px}
-  @media (min-width:520px){ .card{padding:14px 16px 18px} .card:nth-child(odd){padding-left:0} .card:nth-child(even){padding-right:0} }
+  @media (min-width:420px){ .card{padding:14px 14px 18px} .card:nth-child(odd){padding-left:0} .card:nth-child(even){padding-right:0} }
   .card .meta{display:flex; justify-content:space-between; align-items:baseline; font-size:15px}
-  .card .meta .no{font-weight:900; color:var(--pink); font-size:14px; text-transform:uppercase; letter-spacing:-.01em}
+  .card .meta .no{font-weight:900; color:var(--pink); font-size:14px; text-transform:uppercase; letter-spacing:-.01em; white-space:nowrap}
   .card .meta .when{color:var(--white-soft); font-size:13px}
-  .card .where{color:var(--white); font-size:11px; margin:2px 0 0}
-  .card .glaze{color:var(--white-soft); font-size:11px; margin:4px 0 10px}
+  .card .where{color:var(--white); font-size:12px; margin:4px 0 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .card .glaze{color:var(--white-soft); font-size:12px; margin:2px 0 10px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
   .card .where + .pair{margin-top:10px}
   .pair{display:grid; grid-template-columns:1fr 1fr; gap:6px}
   .ph{position:relative; aspect-ratio:1/1; background:var(--olive-deep); overflow:hidden; border-radius:4px}
   .ph img{width:100%; height:100%; object-fit:cover; display:block; max-width:100%}
-  .ph .cap{position:absolute; left:8px; bottom:6px; font-size:11px; font-weight:700; color:var(--white); background:var(--snail); padding:2px 7px; border-radius:3px}
-  .ph.empty{display:flex; align-items:flex-end; justify-content:flex-start; color:var(--white-soft); font-size:12px; font-weight:600; padding:10px}
+  .ph .cap{position:absolute; left:5px; bottom:5px; font-size:9px; max-width:calc(100% - 10px); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:700; color:var(--white); background:var(--snail); padding:2px 7px; border-radius:3px}
+  .ph.empty{display:flex; align-items:flex-end; justify-content:flex-start; color:var(--white-soft); font-size:10px; line-height:1.2; font-weight:600; padding:10px}
   .ph.empty img{position:absolute; inset:0; margin:auto; width:62%; height:auto; opacity:.95}
   .ph.empty span{position:relative}
   .card .note{font-size:14px; color:var(--white-soft); margin:10px 0 0}
   .empty-state{color:var(--white-soft); padding:20px 0}
 
   /* send-a-photo form */
-  .send{margin:36px 0 0; padding-top:22px; border-top:3px dotted var(--dots)}
-  .send h3{font-family:"Pangolin",cursive; font-size:clamp(28px,6vw,40px); font-weight:700; text-transform:uppercase; color:var(--pink); margin:0 0 8px; line-height:1}
+  .send{margin:0; padding-top:0}
+  .send h3{font-family:"Pangolin",cursive; font-size:clamp(28px,6vw,40px); font-weight:700; text-transform:uppercase; color:var(--pink); margin:0 0 12px; line-height:1}
   .send p.intro{margin:0 0 6px; font-size:15px; max-width:44ch}
   .send p.or{margin:0 0 18px; font-size:14px; color:var(--white-soft)}
   .send a.dm{color:var(--pink); font-weight:800; text-decoration:none; border-bottom:2px dotted var(--pink)}
@@ -186,7 +186,8 @@
   .field input:focus-visible, .field textarea:focus-visible{outline:3px solid var(--pink); outline-offset:2px}
   .send button[type=submit]{
     font:inherit; font-size:15px; font-weight:800; text-transform:uppercase; letter-spacing:.06em;
-    color:var(--white); background:var(--pink); border:0; border-radius:999px; padding:13px 26px; cursor:pointer
+    color:var(--white); background:var(--pink); border:0; border-radius:999px; padding:13px 26px; cursor:pointer;
+    margin-left:auto;
   }
   .send button[type=submit]:focus-visible{outline:3px solid var(--white); outline-offset:3px}
   .hp{position:absolute; left:-9999px}
@@ -350,7 +351,7 @@
       <h3>Send your snail</h3>
       <p class="intro">Adopted a snail? Tell us where it ended up and it will appear on this map.</p>
       <p class="or">Or just message <a href="https://ig.me/m/mot.is.pond" target="_blank">@mot.is.pond</a> on Instagram.</p>
-      <form action="https://formsubmit.co/mot.is.beside.you@gmail.com" method="POST" enctype="multipart/form-data">
+      <form action="https://formsubmit.co/mot.is.beside.you@gmail.com" method="POST" enctype="multipart/form-data" style="display:flex; flex-direction:column;">
         <input type="hidden" name="_subject" value="A snail found its home">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_captcha" value="false">
@@ -369,9 +370,9 @@
         <div class="field">
           <label for="f-photo">Snail photo</label>
           <input type="file" id="f-photo" name="photo" accept="image/*">
+          <span class="hint" style="margin-top:6px;">Photos under 10 MB, please.</span>
         </div>
         <button type="submit">Send</button>
-        <p class="or" style="margin:14px 0 0">Photos under 10 MB, please.</p>
       </form>
     </div>
   </div>
@@ -677,7 +678,7 @@ const LAND = {"type":"Topology","objects":{"land":{"type":"GeometryCollection","
     const when = d && !isNaN(d) ? d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : '';
     return `<li class="card">
       <div class="meta"><span class="no">Snail ${s.no || '?'}</span><span class="when">${when ? 'left '+when : ''}</span></div>
-      <div class="where">${s.city}${s.country ? ', '+s.country : ''} · ${fmt(haversine(CONFIG.home,s))} km from Mot</div>
+      <div class="where">${s.city} · ${fmt(haversine(CONFIG.home,s))} km</div>
       <div class="glaze">with ${s.adoptedBy || 'Anonymous'}</div>
       <div class="pair">${ph(s.photoOut,'goodbye','no goodbye photo')}${ph(s.photoIn,'new home','no news yet')}</div>
       ${s.note ? `<div class="note">${s.note}</div>` : ''}
