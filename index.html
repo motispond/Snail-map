@@ -44,8 +44,12 @@
   html,body{height:100%; overflow:hidden}
 
   /* top bar */
+  .bar-row{display:flex; justify-content:space-between; align-items:center; gap:12px}
+  .bar-title{text-align:center; margin-top:6px}
+  .bar-title h1{margin:0}
+  .bar-title .lead{margin:4px auto 0; max-width:46ch}
   .bar{
-    position:fixed; top:0; left:0; right:0; z-index:5; padding:14px 20px; display:flex; justify-content:space-between; align-items:center; gap:12px;
+    position:fixed; top:0; left:0; right:0; z-index:5; padding:14px 20px 18px; display:block;
     background:linear-gradient(to bottom, var(--olive) 0%, var(--olive) 40%, rgba(117,134,74,0) 100%);
     backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px);
   }
@@ -65,12 +69,20 @@
   #screen-archive{
     position:fixed !important; right:0; top:0; bottom:0; width:min(94vw,640px); max-width:100vw;
     flex:none !important; z-index:10; overflow-y:auto;
-    background:var(--olive); padding-top:0;
+    background:#F2E06A; padding-top:0;
     transform:translateX(100%); transition:transform 1.8s cubic-bezier(0.34,1.56,0.64,1);
     pointer-events:none;
   }
   #screen-archive.active{transform:translateX(0); pointer-events:auto}
-  #screen-archive .wrap{padding-top:20px}
+  #screen-archive .wrap{padding-top:20px; max-width:none; width:100%; box-sizing:border-box; margin:0}
+  #screen-archive{color:#2A2A14}
+  #screen-archive .card .where{color:#2A2A14}
+  #screen-archive .card .glaze{color:#5A5A34}
+  #screen-archive .card .note{color:#2A2A14}
+  #screen-archive h2{color:#2A2A14}
+  #screen-archive .cards, #screen-archive .card{border-color:#2A2A14}
+  #screen-archive .ph{background:#DFCB56}
+  #screen-archive .ph.empty{color:#6A6030}
   #screen-map:not(:visible) .map-area{pointer-events:none}
   .screen > .wrap{padding-top:0px}
   #screen-map > .wrap{padding-top:20px}
@@ -88,7 +100,6 @@
     .archive-grid .side{position:sticky; top:86px}
     .cards{grid-template-columns:1fr 1fr}
   }
-  @media (min-width:1300px){ .cards{grid-template-columns:1fr 1fr 1fr} .card:nth-child(odd){border-right:none} .cards .card{border-right:3px dotted var(--dots)} }
   #screen-map{display:flex; flex-direction:column}
   #screen-map .wrap{flex:0 0 auto}
   #screen-map .map-area{flex:1 1 auto; min-height:260px; display:flex; flex-direction:column}
@@ -213,7 +224,7 @@
   @media (max-width:768px){
     h1{font-size:clamp(28px,6vw,56px)}
     #screen-archive{width:100vw}
-    .map-info{width:calc(100vw - 40px); max-width:100%; left:20px; bottom:80px}
+    .map-info{width:calc(100vw - 40px); max-width:100%; left:20px; top:auto; bottom:80px}
     .map-area{top:70px}
     .card .where{font-size:11px}
     .card .glaze{font-size:11px}
@@ -225,7 +236,7 @@
 
   @media (max-width:480px){
     h1{font-size:clamp(24px,5vw,44px)}
-    .map-info{bottom:90px; width:calc(100vw - 40px); left:20px; padding:12px 14px}
+    .map-info{top:auto; bottom:90px; width:calc(100vw - 40px); left:20px; padding:12px 14px}
     .map-info .stat{font-size:13px}
     .map-info .desc{font-size:12px; line-height:1.4}
     .lead{font-size:12px}
@@ -266,7 +277,7 @@
   .goal{display:none}
   
   .map-info{
-    position:fixed; left:calc(max(0px, (100vw - 1100px) / 2) + 40px); bottom:40px;
+    position:fixed; left:calc(max(0px, (100vw - 1100px) / 2) + 40px); top:210px; bottom:auto;
     z-index:4; width:300px; max-width:85vw; box-sizing:border-box;
     background:var(--olive-deep); border:2px solid var(--white); border-radius:6px;
     padding:14px 16px; backdrop-filter:blur(8px);
@@ -279,7 +290,7 @@
   #screen-map .wrap{position:absolute; left:0; right:0; top:60px; z-index:3; pointer-events:none}
   #screen-map .wrap .intro-grid{pointer-events:auto}
   
-  .map-area{position:absolute; left:0; right:0; top:80px; bottom:0}
+  .map-area{position:absolute; left:0; right:0; top:170px; bottom:0}
   .map-wrap{position:absolute; inset:0; margin:0; border:none}
 
   .bottom-bar{
@@ -327,10 +338,16 @@
 <body>
 
 <div class="bar">
-  <span class="brand"><span class="mot"><img id="snailLogo" alt="" src=""> Mot</span></span>
-  <div class="tabs" role="tablist">
-    <button role="tab" id="tab-map" aria-selected="true" aria-controls="screen-map">Map</button>
-    <button role="tab" id="tab-archive" aria-selected="false" aria-controls="screen-archive">Snails</button>
+  <div class="bar-row">
+    <span class="brand"><span class="mot"><img id="snailLogo" alt="" src=""> Mot</span></span>
+    <div class="tabs" role="tablist">
+      <button role="tab" id="tab-map" aria-selected="true" aria-controls="screen-map">Map</button>
+      <button role="tab" id="tab-archive" aria-selected="false" aria-controls="screen-archive">Snails</button>
+    </div>
+  </div>
+  <div class="bar-title">
+    <h1><span>Snail</span><span>Map</span></h1>
+    <p class="lead">Small ceramic snails from Mot, and where they went.</p>
   </div>
 </div>
 
@@ -339,10 +356,7 @@
   <section class="screen" id="screen-map" role="tabpanel" aria-labelledby="tab-map">
     <div class="wrap">
       <div class="intro-grid">
-        <div class="left">
-          <h1><span>Snail</span><span>Map</span></h1>
-          <p class="lead">Small ceramic snails from Mot, and where they went.</p>
-        </div>
+        <div class="left"></div>
         <div class="right"></div>
       </div>
     </div>
