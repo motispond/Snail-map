@@ -10,16 +10,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..900&family=Pangolin&display=swap" rel="stylesheet">
 <style>
   :root{
-    --olive:#75864A;        /* poster green */
-    --olive-deep:#5D6C39;
-    --golden:#F4D03F;       /* bright yellow for city dots */
-    --dark-brown:#3D2817;   /* dark brown for numbers    /* photo slots, map water shading */
-    --speck:#A9A26F;        /* the speckle */
-    --pink:#A31C70;         /* hand lettering */
-    --snail:#1D2112;        /* the snail, and the land */
-    --white:#FFFFFF;
-    --white-soft:rgba(255,255,255,.78);
-    --dots:rgba(255,255,255,.9);
+    --olive:#F6F2E6;        /* page: light beige */
+    --olive-deep:#ECE6D6;    /* recessed beige */
+    --golden:#F2EFE4;        /* city dots on dark map */
+    --dark-brown:#3E3A2A;
+    --speck:#D6CDB2;
+    --pink:#3E3A2A;          /* headings: dark khaki brown */
+    --snail:#3E3A2A;
+    --line:#4A4331;          /* every rule on the page */
+    --white:#2E2B1F;         /* body text */
+    --white-soft:rgba(46,43,31,.66);
+    --dots:#4A4331;
+    --yellow:#F5EC3D;        /* snails panel */
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
@@ -33,8 +35,6 @@
   html,body{margin:0}
   body{
     background-color:var(--olive);
-    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><g fill='%23A9A26F' fill-opacity='.55'><circle cx='78' cy='36' r='2.5'/><circle cx='17' cy='129' r='1.9'/><circle cx='14' cy='122' r='1.3'/><circle cx='104' cy='17' r='1.4'/><circle cx='102' cy='198' r='1.4'/><circle cx='54' cy='151' r='3.1'/><circle cx='139' cy='95' r='3.2'/><circle cx='11' cy='206' r='1.8'/><circle cx='35' cy='28' r='1.8'/><circle cx='196' cy='43' r='2.4'/><circle cx='153' cy='89' r='2.3'/><circle cx='15' cy='14' r='1.6'/><circle cx='163' cy='103' r='1.8'/><circle cx='141' cy='109' r='1.8'/><circle cx='191' cy='168' r='1.7'/><circle cx='138' cy='126' r='3.0'/><circle cx='175' cy='69' r='3.2'/><circle cx='28' cy='100' r='2.7'/><circle cx='36' cy='117' r='1.3'/><circle cx='160' cy='183' r='2.3'/><circle cx='210' cy='75' r='2.6'/><circle cx='143' cy='139' r='2.1'/><circle cx='202' cy='227' r='2.1'/><circle cx='159' cy='15' r='2.6'/><circle cx='155' cy='238' r='2.8'/><circle cx='68' cy='93' r='2.5'/><circle cx='5' cy='111' r='1.5'/><circle cx='28' cy='14' r='2.7'/><circle cx='31' cy='59' r='2.0'/><circle cx='209' cy='19' r='2.1'/><circle cx='132' cy='212' r='2.8'/><circle cx='207' cy='67' r='2.0'/><circle cx='86' cy='212' r='3.1'/><circle cx='36' cy='42' r='1.7'/><circle cx='56' cy='116' r='2.4'/><circle cx='63' cy='1' r='2.0'/><circle cx='89' cy='136' r='3.1'/><circle cx='166' cy='124' r='2.4'/><circle cx='162' cy='13' r='3.0'/><circle cx='187' cy='210' r='2.8'/><circle cx='94' cy='96' r='1.4'/><circle cx='152' cy='15' r='1.3'/><circle cx='50' cy='39' r='1.9'/><circle cx='13' cy='0' r='1.5'/><circle cx='24' cy='87' r='1.3'/><circle cx='210' cy='147' r='1.5'/><circle cx='61' cy='83' r='1.9'/><circle cx='29' cy='204' r='3.2'/><circle cx='112' cy='116' r='1.4'/><circle cx='25' cy='82' r='1.7'/><circle cx='199' cy='39' r='1.2'/><circle cx='228' cy='127' r='1.5'/><circle cx='130' cy='6' r='2.3'/><circle cx='235' cy='207' r='2.6'/><circle cx='63' cy='88' r='1.5'/><circle cx='185' cy='128' r='2.8'/><circle cx='79' cy='54' r='2.8'/><circle cx='236' cy='205' r='2.8'/><circle cx='196' cy='178' r='1.7'/><circle cx='124' cy='85' r='1.3'/><circle cx='7' cy='67' r='1.7'/><circle cx='166' cy='230' r='2.1'/><circle cx='225' cy='237' r='3.1'/><circle cx='88' cy='53' r='1.7'/><circle cx='47' cy='49' r='2.4'/><circle cx='216' cy='202' r='2.2'/><circle cx='157' cy='192' r='1.4'/><circle cx='159' cy='218' r='2.8'/><circle cx='180' cy='115' r='1.6'/><circle cx='189' cy='80' r='2.8'/><circle cx='233' cy='95' r='2.0'/><circle cx='227' cy='174' r='1.5'/><circle cx='30' cy='36' r='3.0'/><circle cx='194' cy='35' r='2.9'/><circle cx='235' cy='158' r='1.9'/><circle cx='132' cy='31' r='1.2'/><circle cx='233' cy='156' r='2.3'/><circle cx='224' cy='104' r='2.9'/><circle cx='198' cy='51' r='1.7'/><circle cx='70' cy='58' r='2.4'/><circle cx='62' cy='101' r='1.5'/><circle cx='218' cy='85' r='2.1'/><circle cx='140' cy='217' r='2.0'/><circle cx='220' cy='120' r='2.3'/><circle cx='126' cy='4' r='2.1'/><circle cx='44' cy='1' r='2.8'/><circle cx='41' cy='114' r='2.7'/><circle cx='134' cy='78' r='2.2'/><circle cx='133' cy='188' r='1.4'/><circle cx='134' cy='60' r='1.8'/><circle cx='185' cy='122' r='2.3'/><circle cx='182' cy='219' r='2.1'/><circle cx='147' cy='121' r='2.2'/><circle cx='166' cy='109' r='2.3'/><circle cx='115' cy='226' r='2.6'/><circle cx='210' cy='226' r='1.7'/><circle cx='134' cy='226' r='2.9'/><circle cx='33' cy='29' r='2.1'/><circle cx='17' cy='58' r='1.3'/><circle cx='161' cy='188' r='3.0'/><circle cx='37' cy='172' r='2.5'/><circle cx='34' cy='212' r='3.1'/><circle cx='53' cy='229' r='2.0'/><circle cx='117' cy='238' r='2.9'/><circle cx='39' cy='104' r='2.2'/><circle cx='81' cy='47' r='1.8'/><circle cx='173' cy='5' r='2.3'/><circle cx='106' cy='4' r='1.9'/><circle cx='150' cy='123' r='1.3'/><circle cx='236' cy='189' r='3.1'/><circle cx='25' cy='64' r='1.3'/><circle cx='187' cy='65' r='1.5'/><circle cx='101' cy='219' r='2.8'/><circle cx='62' cy='36' r='3.0'/><circle cx='137' cy='168' r='1.4'/><circle cx='14' cy='165' r='2.1'/><circle cx='17' cy='225' r='2.5'/><circle cx='192' cy='20' r='2.9'/><circle cx='16' cy='207' r='2.1'/><circle cx='81' cy='133' r='3.1'/><circle cx='64' cy='31' r='2.3'/><circle cx='57' cy='26' r='1.5'/><circle cx='12' cy='48' r='1.8'/><circle cx='73' cy='182' r='1.8'/><circle cx='120' cy='43' r='1.9'/><circle cx='4' cy='60' r='1.2'/><circle cx='176' cy='132' r='1.6'/><circle cx='114' cy='224' r='1.4'/><circle cx='197' cy='104' r='2.2'/><circle cx='200' cy='94' r='2.2'/><circle cx='165' cy='236' r='1.9'/><circle cx='200' cy='170' r='2.5'/><circle cx='97' cy='83' r='1.3'/><circle cx='31' cy='17' r='2.7'/><circle cx='61' cy='39' r='1.4'/><circle cx='202' cy='209' r='2.5'/><circle cx='68' cy='58' r='1.8'/><circle cx='110' cy='38' r='2.1'/><circle cx='63' cy='231' r='3.1'/><circle cx='131' cy='59' r='3.1'/></g></svg>");
-    background-size:240px 240px;
     color:var(--white);
     font-family:"Geist", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
     font-weight:400; line-height:1.5; -webkit-font-smoothing:antialiased;
@@ -48,7 +48,7 @@
   /* thin top strip */
   .topstrip{
     flex:0 0 auto; display:flex; align-items:center; justify-content:space-between; gap:16px;
-    padding:8px 20px; border-bottom:1px solid rgba(255,255,255,.35);
+    padding:8px 20px; border-bottom:1px solid var(--line);
     font-size:11px; letter-spacing:.08em; text-transform:uppercase; font-weight:600;
   }
   .topstrip img{height:16px; vertical-align:-3px; margin-right:6px}
@@ -59,15 +59,16 @@
 
   /* big title */
   .bigtitle{
-    flex:0 0 auto; font-family:"Pangolin", cursive; font-weight:700; color:var(--pink);
-    font-size:clamp(48px,13vw,180px); line-height:.9; margin:2px 0 0; padding:0 16px;
+    flex:0 0 auto; border-bottom:1px solid var(--line); padding-bottom:6px;
+    font-family:"Pangolin", cursive; font-weight:700; color:var(--pink);
+    font-size:clamp(34px,8.5vw,110px); line-height:.95; margin:4px 0 6px; padding:0 20px;
     white-space:nowrap; text-align:center; letter-spacing:-.01em;
   }
 
   /* sub bar with tabs */
   .subbar{
     flex:0 0 auto; display:flex; align-items:center; justify-content:space-between; gap:12px;
-    padding:6px 20px 10px; border-bottom:1px solid rgba(255,255,255,.35);
+    padding:7px 20px; border-bottom:1px solid var(--line);
   }
   .subbar-count{font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--white-soft)}
 
@@ -75,9 +76,9 @@
   .sitefoot{padding:8px 4px 0; font-size:11px; letter-spacing:.08em; text-transform:uppercase}
   .sitefoot a{color:var(--white); text-decoration:underline}
 
-  .tabs{display:flex; gap:0; border:3px dotted var(--dots); border-radius:999px; padding:3px}
-  .tabs button{font:inherit; font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--white); background:none; border:0; padding:6px 14px; border-radius:999px; cursor:pointer; display:inline-block}
-  .tabs button[aria-selected="true"]{background:var(--pink)}
+  .tabs{display:flex; gap:14px; border:0; border-radius:0; padding:0}
+  .tabs button{font:inherit; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--white); background:none; border:0; padding:0; border-radius:0; cursor:pointer; display:inline-block; color:var(--white)}
+  .tabs button[aria-selected="true"]{background:none; text-decoration:underline; text-underline-offset:4px}
   .tabs button:focus-visible{outline:3px solid var(--white); outline-offset:2px}
 
   /* two screens, swipe or tab */
@@ -91,7 +92,7 @@
   #screen-archive{
     position:fixed !important; right:0; top:0; bottom:0; width:min(94vw,640px); max-width:100vw;
     flex:none !important; z-index:10; overflow-y:auto;
-    background:#F2E06A; padding-top:0;
+    background:var(--yellow); padding-top:0;
     transform:translateX(100%); transition:transform 1.8s cubic-bezier(0.34,1.56,0.64,1);
     pointer-events:none;
   }
@@ -100,14 +101,21 @@
   #screen-archive .archive-grid{display:block !important}
   #screen-archive .main{width:100%}
   #screen-archive .cards{width:100%}
-  #screen-archive{color:#2A2A14}
-  #screen-archive .card .where{color:#2A2A14}
-  #screen-archive .card .glaze{color:#5A5A34}
-  #screen-archive .card .note{color:#2A2A14}
-  #screen-archive h2{color:#2A2A14}
-  #screen-archive .cards, #screen-archive .card{border-color:#2A2A14}
-  #screen-archive .ph{background:#DFCB56}
-  #screen-archive .ph.empty{color:#6A6030}
+  #screen-archive{color:#000}
+  #screen-archive .card .where{color:#000}
+  #screen-archive .card .glaze{color:#333}
+  #screen-archive .card .note{color:#000}
+  #screen-archive h2{color:#000}
+  #screen-archive .cards, #screen-archive .card{border-color:#000}
+  #screen-archive .card{border-right:none !important; border-left:none !important}
+  #screen-archive .ph{background:#E3DB35}
+  #screen-archive .ph.empty{color:#555}
+  #screen-archive .card .meta .no{color:#000}
+  #screen-archive .ph .cap{background:#000; color:var(--yellow)}
+  #screen-archive .modal-content{background:var(--yellow); color:#000}
+  #screen-archive .modal-content h3, #screen-archive .modal-close{color:#000}
+  #screen-archive .field label, #screen-archive .field .hint{color:#000}
+  #screen-archive .send h3{color:#000}
   #screen-map:not(:visible) .map-area{pointer-events:none}
   .screen > .wrap{padding-top:0px}
   #screen-map > .wrap{padding-top:20px}
@@ -146,20 +154,20 @@
   .statement{font-size:clamp(20px,4.6vw,30px); font-weight:500; line-height:1.2; margin:14px 0 6px; max-width:26ch}
   .statement .km{color:var(--pink); font-weight:900; font-variant-numeric:tabular-nums}
   .fine{font-size:14px; color:var(--white-soft); margin:0 0 4px; max-width:60ch}
-  .goal{height:0; border-top:3px dotted var(--dots); margin:16px 0 0; position:relative}
+  .goal{height:0; border-top:1px solid var(--dots); margin:16px 0 0; position:relative}
   .goal i{position:absolute; left:0; top:-3px; height:3px; background:var(--pink); width:0; transition:width 1.2s ease}
   @media (prefers-reduced-motion:reduce){ .goal i{transition:none} }
 
   /* map — cut here */
   .map-wrap{
     position:relative; flex:1 1 auto; min-height:260px; margin:0;
-    border:1px solid rgba(255,255,255,.45); border-radius:2px; overflow:hidden;
+    border:1px solid var(--line); border-radius:2px; overflow:hidden;
     background:#1B1B1E;
   }
   svg.map{position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none; cursor:grab; background:#1B1B1E}
   svg.map:active{cursor:grabbing}
   .land{fill:#33333A; stroke:#4A4A52; stroke-width:.5; vector-effect:non-scaling-stroke}
-  .trail{fill:none; stroke:#8A8A92; stroke-width:2; stroke-dasharray:0 5; stroke-linecap:round; vector-effect:non-scaling-stroke}
+  .trail{fill:none; stroke:#9A9AA2; stroke-width:2; stroke-dasharray:0 5; stroke-linecap:round; vector-effect:non-scaling-stroke}
   .city{cursor:pointer}
   .city circle{
     fill:var(--golden);
@@ -177,20 +185,20 @@
     font:inherit; font-size:20px; font-weight:600; line-height:1; cursor:pointer
   }
   .map-tools button:focus-visible{outline:3px solid var(--pink); outline-offset:2px}
-  .map-hint{position:absolute; left:12px; bottom:14px; font-size:12px; font-weight:600; color:var(--white); pointer-events:none}
+  .map-hint{color:#F2EFE4; position:absolute; left:12px; bottom:14px; font-size:12px; font-weight:600; color:var(--white); pointer-events:none}
 
   .counts{display:flex; gap:22px; flex-wrap:wrap; margin:0; padding:14px 20px 0; font-size:15px; color:var(--white-soft)}
   .counts b{font-weight:800; color:var(--white); font-variant-numeric:tabular-nums}
 
   .filter{margin:8px 0 14px; display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap}
   h2{font-size:14px; font-weight:700; margin:0; text-transform:uppercase; letter-spacing:.08em}
-  .filter button{font:inherit; font-size:14px; font-weight:600; color:var(--white); background:none; border:0; padding:0; cursor:pointer; text-decoration:underline; text-decoration-style:dotted; text-underline-offset:4px}
+  .filter button{font:inherit; font-size:14px; font-weight:600; color:var(--white); background:none; border:0; padding:0; cursor:pointer; text-decoration:underline; text-decoration-style:solid; text-underline-offset:4px}
   .filter button:focus-visible{outline:3px solid var(--pink); outline-offset:3px}
 
   /* cards — the tear-off strip */
-  .cards{display:grid; grid-template-columns:1fr; gap:0; padding:0; margin:0; list-style:none; border-top:3px dotted var(--dots)}
-  @media (min-width:420px){ .cards{grid-template-columns:1fr 1fr} .card:nth-child(odd){border-right:3px dotted var(--dots)} }
-  .card{border-bottom:3px dotted var(--dots); padding:14px 0 18px}
+  .cards{display:grid; grid-template-columns:1fr; gap:0; padding:0; margin:0; list-style:none; border-top:1px solid var(--dots)}
+  @media (min-width:420px){ .cards{grid-template-columns:1fr 1fr} }
+  .card{border-bottom:1px solid var(--dots); padding:14px 0 18px}
   @media (min-width:420px){ .card{padding:14px 14px 18px} .card:nth-child(odd){padding-left:0} .card:nth-child(even){padding-right:0} }
   .card .meta{display:flex; justify-content:space-between; align-items:baseline; font-size:15px}
   .card .meta .no{font-weight:900; color:var(--pink); font-size:14px; text-transform:uppercase; letter-spacing:-.01em; white-space:nowrap}
@@ -213,7 +221,7 @@
   .send h3{font-family:"Pangolin",cursive; font-size:clamp(28px,6vw,40px); font-weight:700; text-transform:uppercase; color:var(--pink); margin:0 0 12px; line-height:1}
   .send p.intro{margin:0 0 6px; font-size:15px; max-width:44ch}
   .send p.or{margin:0 0 18px; font-size:14px; color:var(--white-soft)}
-  .send a.dm{color:var(--pink); font-weight:800; text-decoration:none; border-bottom:2px dotted var(--pink)}
+  .send a.dm{color:var(--pink); font-weight:800; text-decoration:none; border-bottom:1px solid var(--pink)}
   .field{margin:0 0 16px}
   .field label{display:block; font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; margin:0 0 4px}
   .field .hint{display:block; font-size:13px; font-weight:400; text-transform:none; letter-spacing:0; color:var(--white-soft); margin:2px 0 6px; max-width:46ch}
@@ -221,7 +229,7 @@
     width:100%; font:inherit; font-size:16px; color:var(--white); background:var(--olive-deep);
     border:0; border-radius:4px; padding:11px 13px; resize:vertical
   }
-  .field input[type=text]::placeholder, .field textarea::placeholder{color:rgba(255,255,255,.45)}
+  .field input[type=text]::placeholder, .field textarea::placeholder{color:var(--line)}
   .field input[type=file]{font:inherit; font-size:14px; color:var(--white)}
   .field input:focus-visible, .field textarea:focus-visible{outline:3px solid var(--pink); outline-offset:2px}
   .send button[type=submit]{
@@ -285,7 +293,7 @@
   }
 
 
-    footer{margin:36px 0 40px; padding-top:18px; border-top:3px dotted var(--dots); font-size:15px}
+    footer{margin:36px 0 40px; padding-top:18px; border-top:1px solid var(--dots); font-size:15px}
   footer p{margin:0 0 10px; max-width:56ch}
   footer a{color:var(--pink); font-weight:700; text-decoration:none}
   .err{color:var(--white); font-size:14px; background:var(--pink); padding:8px 12px; border-radius:4px}
@@ -694,12 +702,12 @@ const LAND = {"type":"Topology","objects":{"land":{"type":"GeometryCollection","
     gHome.select('text.home-label').attr('transform', `scale(${1/curK})`).attr('y', homeRPx*curK + 14);
   }
   let zoom = d3.zoom().scaleExtent([1,8])
-    .translateExtent([[0,0],[W,H]])
+    .translateExtent([[-W*0.6,-H*0.6],[W*1.6,H*1.6]])
     .extent([[0,0],[W,H]])
     .on('zoom', ev => { g.attr('transform', ev.transform); if (ev.transform.k !== curK){ curK = ev.transform.k; placeCities(); } });
   svg.call(zoom).on('dblclick.zoom', null);
   function refreshZoomBounds(){
-    zoom.translateExtent([[0,0],[W,H]]).extent([[0,0],[W,H]]);
+    zoom.translateExtent([[-W*0.6,-H*0.6],[W*1.6,H*1.6]]).extent([[0,0],[W,H]]);
     svg.call(zoom.transform, d3.zoomIdentity);
   }
   $('#zin').onclick = ()=> svg.transition().duration(300).call(zoom.scaleBy, 1.6);
