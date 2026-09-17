@@ -44,12 +44,11 @@
   html,body{height:100%; overflow:hidden}
 
   /* top bar */
-  .bar-row{display:flex; justify-content:space-between; align-items:center; gap:12px}
-  .bar-title{text-align:center; margin-top:6px}
-  .bar-title h1{margin:0}
-  .bar-title .lead{margin:4px auto 0; max-width:46ch}
+  .bar-title{flex:1 1 auto; min-width:0; text-align:center; display:flex; flex-direction:column; align-items:center; gap:1px}
+  .bar-title h1{margin:0; font-size:clamp(18px,2.4vw,26px); line-height:1.05; white-space:nowrap}
+  .bar-title .lead{margin:0; font-size:clamp(9px,1.05vw,12px); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%; letter-spacing:.06em}
   .bar{
-    position:fixed; top:0; left:0; right:0; z-index:5; padding:14px 20px 18px; display:block;
+    position:fixed; top:0; left:0; right:0; z-index:5; padding:10px 20px; display:flex; align-items:center; justify-content:space-between; gap:16px;
     background:linear-gradient(to bottom, var(--olive) 0%, var(--olive) 40%, rgba(117,134,74,0) 100%);
     backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px);
   }
@@ -75,6 +74,9 @@
   }
   #screen-archive.active{transform:translateX(0); pointer-events:auto}
   #screen-archive .wrap{padding-top:20px; max-width:none; width:100%; box-sizing:border-box; margin:0}
+  #screen-archive .archive-grid{display:block !important}
+  #screen-archive .main{width:100%}
+  #screen-archive .cards{width:100%}
   #screen-archive{color:#2A2A14}
   #screen-archive .card .where{color:#2A2A14}
   #screen-archive .card .glaze{color:#5A5A34}
@@ -96,7 +98,7 @@
     #screen-map .intro-grid .right{padding-bottom:4px}
     .counts{padding-left:40px; padding-right:40px}
     .swipe{padding-right:40px}
-    .archive-grid{display:grid; grid-template-columns:1fr 380px; gap:48px; align-items:start}
+    .archive-grid{display:block}
     .archive-grid .side{position:sticky; top:86px}
     .cards{grid-template-columns:1fr 1fr}
   }
@@ -166,7 +168,7 @@
   .card .meta{display:flex; justify-content:space-between; align-items:baseline; font-size:15px}
   .card .meta .no{font-weight:900; color:var(--pink); font-size:14px; text-transform:uppercase; letter-spacing:-.01em; white-space:nowrap}
   .card .meta .when{color:var(--white-soft); font-size:13px}
-  .card .where{color:var(--white); font-size:12px; margin:4px 0 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .card .where{color:var(--white); font-size:12px; margin:4px 0 0}
   .card .glaze{color:var(--white-soft); font-size:12px; margin:2px 0 10px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
   .card .where + .pair{margin-top:10px}
   .pair{display:grid; grid-template-columns:1fr 1fr; gap:6px}
@@ -222,7 +224,8 @@
 
   /* Mobile responsive */
   @media (max-width:768px){
-    h1{font-size:clamp(28px,6vw,56px)}
+    .bar-title h1{font-size:clamp(15px,3.2vw,20px)}
+    .bar-title .lead{font-size:9px}
     #screen-archive{width:100vw}
     .map-info{width:calc(100vw - 40px); max-width:100%; left:20px; top:auto; bottom:80px}
     .map-area{top:70px}
@@ -235,7 +238,8 @@
   }
 
   @media (max-width:480px){
-    h1{font-size:clamp(24px,5vw,44px)}
+    .bar-title h1{font-size:15px}
+    .bar-title .lead{display:none}
     .map-info{top:auto; bottom:90px; width:calc(100vw - 40px); left:20px; padding:12px 14px}
     .map-info .stat{font-size:13px}
     .map-info .desc{font-size:12px; line-height:1.4}
@@ -277,7 +281,7 @@
   .goal{display:none}
   
   .map-info{
-    position:fixed; left:calc(max(0px, (100vw - 1100px) / 2) + 40px); top:210px; bottom:auto;
+    position:fixed; left:calc(max(0px, (100vw - 1100px) / 2) + 40px); top:auto; bottom:40px;
     z-index:4; width:300px; max-width:85vw; box-sizing:border-box;
     background:var(--olive-deep); border:2px solid var(--white); border-radius:6px;
     padding:14px 16px; backdrop-filter:blur(8px);
@@ -290,7 +294,7 @@
   #screen-map .wrap{position:absolute; left:0; right:0; top:60px; z-index:3; pointer-events:none}
   #screen-map .wrap .intro-grid{pointer-events:auto}
   
-  .map-area{position:absolute; left:0; right:0; top:170px; bottom:0}
+  .map-area{position:absolute; left:0; right:0; top:80px; bottom:0}
   .map-wrap{position:absolute; inset:0; margin:0; border:none}
 
   .bottom-bar{
@@ -338,16 +342,14 @@
 <body>
 
 <div class="bar">
-  <div class="bar-row">
-    <span class="brand"><span class="mot"><img id="snailLogo" alt="" src=""> Mot</span></span>
-    <div class="tabs" role="tablist">
-      <button role="tab" id="tab-map" aria-selected="true" aria-controls="screen-map">Map</button>
-      <button role="tab" id="tab-archive" aria-selected="false" aria-controls="screen-archive">Snails</button>
-    </div>
-  </div>
+  <span class="brand"><span class="mot"><img id="snailLogo" alt="" src=""> Mot</span></span>
   <div class="bar-title">
-    <h1><span>Snail</span><span>Map</span></h1>
+    <h1>Snail Map</h1>
     <p class="lead">Small ceramic snails from Mot, and where they went.</p>
+  </div>
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tab-map" aria-selected="true" aria-controls="screen-map">Map</button>
+    <button role="tab" id="tab-archive" aria-selected="false" aria-controls="screen-archive">Snails</button>
   </div>
 </div>
 
@@ -750,7 +752,7 @@ const LAND = {"type":"Topology","objects":{"land":{"type":"GeometryCollection","
     const when = d && !isNaN(d) ? d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : '';
     return `<li class="card">
       <div class="meta"><span class="no">Snail ${s.no || '?'}</span><span class="when">${when ? 'left '+when : ''}</span></div>
-      <div class="where">${s.city} · ${fmt(haversine(CONFIG.home,s))} km</div>
+      <div class="where">${s.city}${s.country ? ', '+s.country : ''} · ${fmt(haversine(CONFIG.home,s))} km from Mot</div>
       <div class="glaze">with ${s.adoptedBy || 'Anonymous'}</div>
       <div class="pair">${ph(s.photoOut,'goodbye','no goodbye photo')}${ph(s.photoIn,'new home','no news yet')}</div>
       ${s.note ? `<div class="note">${s.note}</div>` : ''}
