@@ -195,25 +195,21 @@
 
   
 
-  @media (min-width:769px) and (max-width:1024px){
-    h1{font-size:clamp(32px,7vw,48px)}
-    #screen-archive{width:min(90vw, 700px)}
-    .map-info{left:20px; width:calc(100vw - 50px); max-width:340px}
-    .map-info .stat{font-size:14px}
-    .map-info .desc{font-size:13px; line-height:1.5}
-    .card{padding:14px 14px 18px}
-    .card .meta .no{font-size:14px}
-    .card .where{font-size:12px}
-    .card .glaze{font-size:12px}
+
+  /* Tablet & desktop panel sizing */
+  @media (min-width:769px){
+    .card{padding:16px 18px 20px}
+    .card .meta .no{font-size:15px}
+    .card .where{font-size:13px}
+    .card .glaze{font-size:13px}
     .card .note{font-size:13px}
-    .ph{aspect-ratio:1/1}
-    .pair{grid-template-columns:1fr 1fr; gap:8px}
-    .field input[type=text], .field textarea{font-size:15px}
-    .send h3{font-size:32px}
+    .pair{gap:10px}
+    .ph .cap{font-size:11px; left:7px; bottom:7px}
+    .ph.empty{font-size:12px}
+    #screen-archive h2{font-size:16px}
   }
 
-
-    /* Mobile responsive */
+  /* Mobile responsive */
   @media (max-width:768px){
     h1{font-size:clamp(28px,6vw,56px)}
     #screen-archive{width:100vw}
@@ -270,7 +266,8 @@
   .goal{display:none}
   
   .map-info{
-    position:fixed; left:20px; bottom:20px; z-index:4; width:300px; max-width:85vw; box-sizing:border-box;
+    position:fixed; left:calc(max(0px, (100vw - 1100px) / 2) + 40px); bottom:40px;
+    z-index:4; width:300px; max-width:85vw; box-sizing:border-box;
     background:var(--olive-deep); border:2px solid var(--white); border-radius:6px;
     padding:14px 16px; backdrop-filter:blur(8px);
   }
@@ -646,8 +643,15 @@ const LAND = {"type":"Topology","objects":{"land":{"type":"GeometryCollection","
     gCities.selectAll('g.city').attr('transform', d => { const p=proj([d.lng,d.lat]); return `translate(${p[0]},${p[1]}) scale(${1/curK})`; });
     gHome.select('text.home-label').attr('transform', `scale(${1/curK})`).attr('y', homeRPx*curK + 14);
   }
-  let zoom = d3.zoom().scaleExtent([1,8]).on('zoom', ev => { g.attr('transform', ev.transform); if (ev.transform.k !== curK){ curK = ev.transform.k; placeCities(); } });
-  svg.call(zoom);
+  let zoom = d3.zoom().scaleExtent([1,8])
+    .translateExtent([[0,0],[W,H]])
+    .extent([[0,0],[W,H]])
+    .on('zoom', ev => { g.attr('transform', ev.transform); if (ev.transform.k !== curK){ curK = ev.transform.k; placeCities(); } });
+  svg.call(zoom).on('dblclick.zoom', null);
+  function refreshZoomBounds(){
+    zoom.translateExtent([[0,0],[W,H]]).extent([[0,0],[W,H]]);
+    svg.call(zoom.transform, d3.zoomIdentity);
+  }
   $('#zin').onclick = ()=> svg.transition().duration(300).call(zoom.scaleBy, 1.6);
   $('#zout').onclick = ()=> svg.transition().duration(300).call(zoom.scaleBy, 1/1.6);
   $('#zfit').onclick = ()=> svg.transition().duration(400).call(zoom.transform, d3.zoomIdentity);
@@ -820,7 +824,7 @@ const LAND = {"type":"Topology","objects":{"land":{"type":"GeometryCollection","
     $('#thanks').hidden = false; 
     archiveModal.classList.add('active');
   }
-  let rt; window.addEventListener('resize', ()=>{ clearTimeout(rt); rt=setTimeout(()=>{ sizeMap(); if (cities.length||snails.length) drawMap(); }, 120); });
+  let rt; window.addEventListener('resize', ()=>{ clearTimeout(rt); rt=setTimeout(()=>{ sizeMap(); if (cities.length||snails.length) drawMap(); refreshZoomBounds(); }, 120); });
   $('#clear').onclick = ()=> setActive(null);
 
   /* ---------- totals ---------- */
