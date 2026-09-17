@@ -7,7 +7,7 @@
 <meta name="description" content="Small ceramic snails from Mot, and where they went.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..900&family=Pangolin&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..900&family=Pangolin&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
   :root{
     --olive:#58342B;        /* page: brown */
@@ -21,7 +21,7 @@
     --white:#F2E4DE;         /* body text */
     --white-soft:rgba(242,228,222,.7);
     --dots:#C9A99B;
-    --yellow:#F5EC3D;        /* snails panel */
+    --yellow:#B9EFA3;        /* snails panel */
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
@@ -78,9 +78,9 @@
   .sitefoot a{color:var(--white); text-decoration:underline}
 
   .tabs{display:flex; gap:7px; align-items:center; border:0; border-radius:0; padding:0}
-  .tabs button{font:inherit; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--white); background:none; border:0; padding:0; border-radius:0; cursor:pointer; display:inline-block; color:var(--white)}
+  .tabs button{font-family:"Instrument Serif", Georgia, serif; font-size:17px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--white); background:none; border:0; padding:0; border-radius:0; cursor:pointer; display:inline-block; color:var(--white)}
   .tabs button[aria-selected="true"]{background:none; font-style:italic; text-decoration:none}
-  .tabsep{font-size:11px; color:var(--white-soft)}
+  .tabsep{font-family:"Instrument Serif", Georgia, serif; font-size:17px; color:var(--white-soft)}
   .tabs button:focus-visible{outline:3px solid var(--white); outline-offset:2px}
 
   /* two screens, swipe or tab */
@@ -99,21 +99,22 @@
     pointer-events:none;
   }
   #screen-archive.active{transform:translateX(0); pointer-events:auto}
-  #screen-archive .wrap{padding-top:20px; max-width:none; width:100%; box-sizing:border-box; margin:0}
+  #screen-archive .wrap{padding-top:20px; padding-right:58px; max-width:none; width:100%; box-sizing:border-box; margin:0}
   #screen-archive .archive-grid{display:block !important}
   #screen-archive .main{width:100%}
   #screen-archive .cards{width:100%}
-  #screen-archive{color:#000}
+  #screen-archive, #screen-archive *{color:#000}
+  #screen-archive .ph .cap{color:#000}
   #screen-archive .card .where{color:#000}
   #screen-archive .card .glaze{color:#333}
   #screen-archive .card .note{color:#000}
   #screen-archive h2{color:#000}
   #screen-archive .cards, #screen-archive .card{border-color:#000}
   #screen-archive .card{border-right:none !important; border-left:none !important}
-  #screen-archive .ph{background:#E3DB35}
+  #screen-archive .ph{background:#A6DE91}
   #screen-archive .ph.empty{color:#555}
   #screen-archive .card .meta .no{color:#000}
-  #screen-archive .ph .cap{background:#000; color:var(--yellow)}
+  #screen-archive .ph .cap{background:rgba(185,239,163,.7); color:#000}
   #screen-archive .modal-content{background:var(--yellow); color:#000}
   #screen-archive .modal-content h3, #screen-archive .modal-close{color:#000}
   #screen-archive .field label, #screen-archive .field .hint{color:#000}
@@ -236,7 +237,7 @@
   .field input:focus-visible, .field textarea:focus-visible{outline:3px solid var(--pink); outline-offset:2px}
   .send button[type=submit]{
     font:inherit; font-size:15px; font-weight:800; text-transform:uppercase; letter-spacing:.06em;
-    color:var(--white); background:var(--pink); border:0; border-radius:999px; padding:13px 26px; cursor:pointer;
+    color:#000; background:#FFFFFF; border:1px solid #000; border-radius:999px; padding:13px 26px; cursor:pointer;
     margin-left:auto;
   }
   .send button[type=submit]:focus-visible{outline:3px solid var(--white); outline-offset:3px}
@@ -286,6 +287,7 @@
     #screen-archive{top:60px; bottom:60px}
     .bottom-bar{height:32px}
     .bar-btn{font-size:10px}
+    .tabs button,.tabsep{font-size:15px}
     .field label{font-size:12px}
     .field .hint{font-size:11px}
     .send h3{font-size:clamp(20px,5vw,32px); margin:0 0 10px}
@@ -331,7 +333,7 @@
   #screen-map > .wrap{display:none}
   #screen-map .wrap .intro-grid{pointer-events:auto}
   
-  .map-area{position:relative; display:block; padding:0}
+  .map-area{position:relative; display:block; padding:0 22px}
   .map-wrap{position:relative; inset:auto; margin:0}
 
   .bottom-bar{
@@ -422,7 +424,7 @@
   </section>
 
   <section class="screen" id="screen-archive" role="tabpanel" aria-labelledby="tab-archive">
-    <button id="archiveClose" style="position:fixed; top:20px; right:20px; z-index:15; background:none; border:none; color:var(--white); font-size:28px; cursor:pointer; width:40px; height:40px; padding:0;">✕</button>
+    <button id="archiveClose" style="position:absolute; top:14px; right:16px; z-index:15; background:none; border:none; color:#000; font-size:26px; line-height:1; cursor:pointer; width:34px; height:34px; padding:0;">✕</button>
     <div class="wrap" id="thanks" hidden><p class="sent">Thank you — your snail is on its way to the map.</p></div>
     <div class="wrap archive-grid">
       <div class="main">
@@ -435,7 +437,7 @@
       </div>
       <div class="side" style="display:none"></div>
     </div>
-    <div class="bottom-bar" style="position:static; border-top:4px solid #FF0000; margin-top:20px;">
+    <div class="bottom-bar" hidden style="display:none">
       <button id="findBtn" class="bar-btn">Find your snail</button>
       <button id="sendBtn" class="bar-btn">Send your snail</button>
     </div>
