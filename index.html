@@ -7,7 +7,7 @@
 <meta name="description" content="Small ceramic snails from Mot, and where they went.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..900&family=Pangolin&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..900&family=Pangolin&display=swap" rel="stylesheet">
 <style>
   :root{
     --olive:#58342B;        /* page: brown */
@@ -58,6 +58,17 @@
   .strip-links{display:flex; gap:18px; white-space:nowrap}
   .strip-links a{color:var(--white); text-decoration:none}
   .strip-links a:hover{text-decoration:underline}
+  .about-wrap{position:relative; display:inline-block}
+  .about-bubble{
+    position:absolute; right:0; top:calc(100% + 10px); width:min(78vw,420px); z-index:20;
+    background:#F6F2E6; color:#2A2118; border:1px solid #2A2118; border-radius:2px;
+    padding:14px 16px; font-size:12px; line-height:1.55; letter-spacing:0; text-transform:none; font-weight:400;
+    box-shadow:0 8px 24px rgba(0,0,0,.28);
+  }
+  .about-bubble::before{
+    content:''; position:absolute; right:16px; top:-7px; width:12px; height:12px;
+    background:#F6F2E6; border-left:1px solid #2A2118; border-top:1px solid #2A2118; transform:rotate(45deg);
+  }
 
   /* big title */
   .bigtitle{
@@ -77,10 +88,10 @@
   .sitefoot{padding:10px 20px 20px; font-size:11px; letter-spacing:.08em; text-transform:uppercase}
   .sitefoot a{color:var(--white); text-decoration:underline}
 
-  .tabs{display:flex; gap:7px; align-items:center; border:0; border-radius:0; padding:0}
-  .tabs button{font-family:"Instrument Serif", Georgia, serif; font-size:17px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--white); background:none; border:0; padding:0; border-radius:0; cursor:pointer; display:inline-block; color:var(--white)}
-  .tabs button[aria-selected="true"]{background:none; font-style:italic; text-decoration:none}
-  .tabsep{font-family:"Instrument Serif", Georgia, serif; font-size:17px; color:var(--white-soft)}
+  .tabs{display:flex; gap:7px; align-items:baseline; border:0; border-radius:0; padding:0}
+  .tabs button{font:inherit; font-size:11px; font-weight:300; font-style:italic; text-transform:uppercase; letter-spacing:.06em; color:var(--white); background:none; border:0; padding:0; border-radius:0; cursor:pointer; display:inline-block; line-height:1}
+  .tabs button[aria-selected="true"]{background:none; font-weight:800; font-style:normal; text-decoration:none}
+  .tabsep{font:inherit; font-size:11px; color:var(--white-soft); line-height:1}
   .tabs button:focus-visible{outline:3px solid var(--white); outline-offset:2px}
 
   /* two screens, swipe or tab */
@@ -111,6 +122,8 @@
   #screen-archive h2{color:#000}
   #screen-archive .cards, #screen-archive .card{border-color:#000}
   #screen-archive .card{border-right:none !important; border-left:none !important}
+  #screen-archive .cards{border-bottom:none !important}
+  #screen-archive .cards > .card:last-child{border-bottom:none !important}
   #screen-archive .ph{background:#A6DE91}
   #screen-archive .ph.empty{color:#555}
   #screen-archive .card .meta .no{color:#000}
@@ -287,7 +300,7 @@
     #screen-archive{top:60px; bottom:60px}
     .bottom-bar{height:32px}
     .bar-btn{font-size:10px}
-    .tabs button,.tabsep{font-size:15px}
+    .tabs button,.tabsep{font-size:10px}
     .field label{font-size:12px}
     .field .hint{font-size:11px}
     .send h3{font-size:clamp(20px,5vw,32px); margin:0 0 10px}
@@ -337,16 +350,16 @@
   .map-wrap{position:relative; inset:auto; margin:0}
 
   .bottom-bar{
-    display:flex; gap:0; height:34px; background:none;
+    display:flex; gap:0; height:34px; background:#A9DCEF;
     border-top:1px solid var(--line); border-bottom:1px solid var(--line);
   }
   #screen-map .bottom-bar{position:static}
   #screen-archive .bottom-bar{border-top:1px solid #000; border-bottom:1px solid #000}
   #screen-archive .bar-btn{border-right:1px solid #000; color:#000}
   .bar-btn{
-    flex:1; border:none; background:none; color:var(--white); font:inherit; font-weight:600;
+    flex:1; border:none; background:none; color:#12384A; font:inherit; font-weight:600;
     font-size:11px; text-transform:uppercase; cursor:pointer; letter-spacing:.08em;
-    border-right:1px solid var(--line);
+    border-right:1px solid #12384A;
   }
   .bar-btn:last-child{border-right:none}
   .bar-btn:active{background:rgba(0,0,0,.1)}
@@ -374,8 +387,11 @@
 <div class="topstrip">
   <span class="strip-lead"><img id="snailLogo" alt="" src=""> Small ceramic snails from Mot, and where they went.</span>
   <span class="strip-links">
-    <a href="https://ig.me/m/mot.is.pond" target="_blank" rel="noopener">Contact &#8599;</a>
-    <a href="#" id="aboutLink">About &#8599;</a>
+    <a href="#" id="contactLink">Contact &#8599;</a>
+    <span class="about-wrap">
+      <a href="#" id="aboutLink">About &#8599;</a>
+      <span class="about-bubble" id="aboutBubble" hidden>Snail Map is part of Mot, a ceramics project started in 2025 by the Korean artist Momo Hwang, making snails out of clay and finding them new homes. This site was built to count how far these small ceramic snails have travelled from Mot, and to keep a record of each goodbye and each arrival.</span>
+    </span>
   </span>
 </div>
 
@@ -446,6 +462,35 @@
 </div>
 
 <!-- Modals -->
+<div id="contactModal" class="modal" style="display:none">
+  <div class="modal-content" style="max-width:500px; max-height:90vh">
+    <button class="modal-close" onclick="document.getElementById('contactModal').style.display='none'" style="position:absolute; top:12px; right:12px; background:none; border:none; font-size:24px; cursor:pointer; padding:0; width:32px; height:32px;">&#10005;</button>
+    <div class="send" style="padding-top:20px">
+      <h3>Contact</h3>
+      <p class="intro">Questions about a snail, a commission, or anything else — write here.</p>
+      <form action="https://formsubmit.co/mot.is.beside.you@gmail.com" method="POST" style="display:flex; flex-direction:column;">
+        <input type="hidden" name="_subject" value="Message from Snail Map">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <div class="field">
+          <label for="c-name">Your name</label>
+          <input type="text" id="c-name" name="name" required>
+        </div>
+        <div class="field">
+          <label for="c-email">Your email</label>
+          <input type="text" id="c-email" name="email" required>
+        </div>
+        <div class="field">
+          <label for="c-msg">Message</label>
+          <textarea id="c-msg" name="message" rows="5" required></textarea>
+        </div>
+        <button type="submit">Send</button>
+      </form>
+      <p class="or" style="margin-top:16px">Or message <a href="https://ig.me/m/mot.is.pond" target="_blank">@mot.is.pond</a> on Instagram.</p>
+    </div>
+  </div>
+</div>
+
 <div id="findModal" class="modal" style="display:none">
   <div class="modal-content">
     <button class="modal-close" onclick="document.getElementById('findModal').style.display='none'">✕</button>
@@ -823,6 +868,38 @@ const LAND = {"type":"Topology","objects":{"land":{"type":"GeometryCollection","
   }
   /* ---- Modal popup handlers ---- */
   const archiveModal = $('#screen-archive');
+  // about bubble
+  const aboutLink = $('#aboutLink'), aboutBubble = $('#aboutBubble'), aboutWrap = document.querySelector('.about-wrap');
+  function showAbout(){ if (aboutBubble) aboutBubble.hidden = false; }
+  function hideAbout(){ if (aboutBubble) aboutBubble.hidden = true; }
+  if (aboutWrap){
+    aboutWrap.addEventListener('mouseenter', showAbout);
+    aboutWrap.addEventListener('mouseleave', hideAbout);
+  }
+  if (aboutLink){
+    aboutLink.addEventListener('click', e=>{ e.preventDefault(); if (aboutBubble) aboutBubble.hidden = !aboutBubble.hidden; });
+  }
+
+  // contact modal
+  const contactModal = $('#contactModal'), contactLink = $('#contactLink');
+  if (contactLink) contactLink.addEventListener('click', e=>{ e.preventDefault(); contactModal.style.display='flex'; });
+  if (contactModal) contactModal.addEventListener('click', e=>{ if (e.target === contactModal) contactModal.style.display='none'; });
+
+  // tap the map to close the snails panel / about bubble
+  const mapScreen = $('#screen-map');
+  if (mapScreen){
+    mapScreen.addEventListener('pointerdown', ()=>{
+      hideAbout();
+      const ar = $('#screen-archive');
+      if (ar && ar.classList.contains('active')){
+        ar.classList.remove('active');
+        const tm = $('#tab-map'), ta = $('#tab-archive');
+        if (tm) tm.setAttribute('aria-selected','true');
+        if (ta) ta.setAttribute('aria-selected','false');
+      }
+    }, true);
+  }
+
   const findModal = $('#findModal');
   const sendModal = $('#sendModal');
   
