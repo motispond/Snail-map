@@ -42,23 +42,46 @@
   a{color:var(--white)}
   .wrap{max-width:720px; margin:0 auto; padding:0 20px}
   html,body{height:100%; overflow:hidden}
+  body{display:flex; flex-direction:column}
 
   /* top bar */
-  .bar-title{flex:1 1 auto; min-width:0; text-align:center; display:flex; flex-direction:column; align-items:center; gap:1px}
-  .bar-title h1{margin:0; font-size:clamp(18px,2.4vw,26px); line-height:1.05; white-space:nowrap}
-  .bar-title .lead{margin:0; font-size:clamp(9px,1.05vw,12px); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%; letter-spacing:.06em}
-  .bar{
-    position:fixed; top:0; left:0; right:0; z-index:5; padding:10px 20px; display:flex; align-items:center; justify-content:space-between; gap:16px;
-    background:linear-gradient(to bottom, var(--olive) 0%, var(--olive) 40%, rgba(117,134,74,0) 100%);
-    backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px);
+  /* thin top strip */
+  .topstrip{
+    flex:0 0 auto; display:flex; align-items:center; justify-content:space-between; gap:16px;
+    padding:8px 20px; border-bottom:1px solid rgba(255,255,255,.35);
+    font-size:11px; letter-spacing:.08em; text-transform:uppercase; font-weight:600;
   }
+  .topstrip img{height:16px; vertical-align:-3px; margin-right:6px}
+  .strip-lead{white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--white)}
+  .strip-links{display:flex; gap:18px; white-space:nowrap}
+  .strip-links a{color:var(--white); text-decoration:none}
+  .strip-links a:hover{text-decoration:underline}
+
+  /* big title */
+  .bigtitle{
+    flex:0 0 auto; font-family:"Pangolin", cursive; font-weight:700; color:var(--pink);
+    font-size:clamp(48px,13vw,180px); line-height:.9; margin:2px 0 0; padding:0 16px;
+    white-space:nowrap; text-align:center; letter-spacing:-.01em;
+  }
+
+  /* sub bar with tabs */
+  .subbar{
+    flex:0 0 auto; display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:6px 20px 10px; border-bottom:1px solid rgba(255,255,255,.35);
+  }
+  .subbar-count{font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--white-soft)}
+
+  /* footer under map */
+  .sitefoot{padding:8px 4px 0; font-size:11px; letter-spacing:.08em; text-transform:uppercase}
+  .sitefoot a{color:var(--white); text-decoration:underline}
+
   .tabs{display:flex; gap:0; border:3px dotted var(--dots); border-radius:999px; padding:3px}
   .tabs button{font:inherit; font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--white); background:none; border:0; padding:6px 14px; border-radius:999px; cursor:pointer; display:inline-block}
   .tabs button[aria-selected="true"]{background:var(--pink)}
   .tabs button:focus-visible{outline:3px solid var(--white); outline-offset:2px}
 
   /* two screens, swipe or tab */
-  .screens{display:flex; width:100%; height:100dvh; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scroll-behavior:smooth; -webkit-overflow-scrolling:touch; position:relative}
+  .screens{display:flex; width:100%; flex:1 1 auto; min-height:0; height:auto; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scroll-behavior:smooth; -webkit-overflow-scrolling:touch; position:relative}
   @media (prefers-reduced-motion:reduce){ .screens{scroll-behavior:auto} }
   .screen{flex:0 0 100%; width:100%; height:100dvh; scroll-snap-align:start; scroll-snap-stop:always; overflow-y:auto; overflow-x:hidden; position:relative; z-index:1}
   #screen-map{z-index:2; pointer-events:auto; display:flex; flex-direction:column}
@@ -128,11 +151,15 @@
   @media (prefers-reduced-motion:reduce){ .goal i{transition:none} }
 
   /* map — cut here */
-  .map-wrap{margin:18px 0 0; position:relative; flex:1 1 auto; min-height:260px; border-top:3px dotted var(--dots); border-bottom:3px dotted var(--dots)}
-  svg.map{position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none; cursor:grab}
+  .map-wrap{
+    position:relative; flex:1 1 auto; min-height:260px; margin:0;
+    border:1px solid rgba(255,255,255,.45); border-radius:2px; overflow:hidden;
+    background:#1B1B1E;
+  }
+  svg.map{position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none; cursor:grab; background:#1B1B1E}
   svg.map:active{cursor:grabbing}
-  .land{fill:var(--snail); stroke:none}
-  .trail{fill:none; stroke:var(--white); stroke-width:2; stroke-dasharray:0 5; stroke-linecap:round; vector-effect:non-scaling-stroke}
+  .land{fill:#33333A; stroke:#4A4A52; stroke-width:.5; vector-effect:non-scaling-stroke}
+  .trail{fill:none; stroke:#8A8A92; stroke-width:2; stroke-dasharray:0 5; stroke-linecap:round; vector-effect:non-scaling-stroke}
   .city{cursor:pointer}
   .city circle{
     fill:var(--golden);
@@ -291,11 +318,11 @@
   .map-info .secondary{color:#888888}
   
   .screen > .wrap{padding-top:0}
-  #screen-map .wrap{position:absolute; left:0; right:0; top:60px; z-index:3; pointer-events:none}
+  #screen-map > .wrap{display:none}
   #screen-map .wrap .intro-grid{pointer-events:auto}
   
-  .map-area{position:absolute; left:0; right:0; top:80px; bottom:0}
-  .map-wrap{position:absolute; inset:0; margin:0; border:none}
+  .map-area{position:relative; left:auto; right:auto; top:auto; bottom:auto; flex:1 1 auto; min-height:0; display:flex; flex-direction:column; padding:14px 20px 16px}
+  .map-wrap{position:relative; inset:auto; margin:0}
 
   .bottom-bar{
     display:flex; gap:0; height:60px;
@@ -335,18 +362,24 @@
   .modal-content h3{font-family:"Pangolin",cursive; font-size:28px; font-weight:700; margin:0 0 16px; color:var(--pink)}
   .modal-content p{font-size:14px; line-height:1.6; margin:0}
   
-  #screen-map{margin-bottom:60px}
+  #screen-map{margin-bottom:0}
 
 </style>
 </head>
 <body>
 
-<div class="bar">
-  <span class="brand"><span class="mot"><img id="snailLogo" alt="" src=""> Mot</span></span>
-  <div class="bar-title">
-    <h1>Snail Map</h1>
-    <p class="lead">Small ceramic snails from Mot, and where they went.</p>
-  </div>
+<div class="topstrip">
+  <span class="strip-lead"><img id="snailLogo" alt="" src=""> Small ceramic snails from Mot, and where they went.</span>
+  <span class="strip-links">
+    <a href="https://ig.me/m/mot.is.pond" target="_blank" rel="noopener">Contact &#8599;</a>
+    <a href="#" id="aboutLink">About &#8599;</a>
+  </span>
+</div>
+
+<h1 class="bigtitle">Snail Map</h1>
+
+<div class="subbar">
+  <span class="subbar-count" id="subCount"></span>
   <div class="tabs" role="tablist">
     <button role="tab" id="tab-map" aria-selected="true" aria-controls="screen-map">Map</button>
     <button role="tab" id="tab-archive" aria-selected="false" aria-controls="screen-archive">Snails</button>
@@ -373,6 +406,7 @@
         </div>
       </div>
       <div class="counts" id="counts" style="display:none"></div>
+      <div class="sitefoot"><a href="https://www.instagram.com/mot.is.pond/" target="_blank" rel="noopener">Instagram</a></div>
 
       <div class="map-info">
         <p class="desc">So far the snails have crawled <span class="stat" id="km">…</span> together.<br><span class="secondary" id="fine">Counting straight lines from Mot to each snail's new home.</span></p>
