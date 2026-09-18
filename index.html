@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="034d8c92">
+<meta name="build" content="0ec7ea01">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Snail Map — Mot</title>
 <meta name="description" content="Small ceramic snails from Mot, and where they went.">
@@ -24,13 +24,8 @@
     --dots:#C9A99B;
     --yellow:#B9EFA3;        /* snails panel */
   }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --olive:#46532A; --olive-deep:#38431F; --speck:#727B48; --pink:#D6449A;
-      --golden:#F9E79F; --dark-brown:#2B1F13;
-    }
-  }
-  :root[data-theme="dark"]{ --olive:#46532A; --olive-deep:#38431F; --speck:#727B48; --pink:#D6449A; --golden:#F9E79F; --dark-brown:#2B1F13; }
+  /* No dark-mode palette on purpose: one brown identity on every device.
+     An old olive palette used to sit here and was turning the page green. */
 
   *{box-sizing:border-box}
   html,body{margin:0}
