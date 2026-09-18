@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="abb6993a">
+<meta name="build" content="791c32e9">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Snail Map — Mot</title>
 <meta name="description" content="Small ceramic snails from Mot, and where they went.">
@@ -76,14 +76,14 @@
   /* big title */
   .bigtitle{
     flex:0 0 auto; border-bottom:1px solid var(--line);
-    margin:0; padding:10px 20px 8px; line-height:0; text-align:center;
+    margin:0; padding:0; line-height:0; text-align:center;
   }
-  .bigtitle img{width:100%; max-width:1200px; height:auto; display:inline-block}
+  .bigtitle img{width:100%; max-width:none; height:auto; display:block}
 
   /* sub bar with tabs */
   .subbar{
     flex:0 0 auto; display:flex; align-items:center; justify-content:space-between; gap:12px;
-    padding:7px 20px;
+    padding:7px 20px 6px;
   }
   .subbar-count{font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--white-soft)}
 
@@ -127,14 +127,19 @@
   #screen-archive .cards, #screen-archive .card{border-color:#000}
   #screen-archive .card{border-right:none !important; border-left:none !important}
   #screen-archive .cards{border-bottom:none !important}
+  #screen-archive .cards > .card{border-bottom:1px solid #000}
   #screen-archive .cards > .card:last-child{border-bottom:none !important}
+  @media (min-width:420px){
+    #screen-archive .cards > .card:nth-last-child(-n+2):nth-child(odd),
+    #screen-archive .cards > .card:nth-last-child(-n+2):nth-child(odd) ~ .card{border-bottom:none !important}
+  }
   #screen-archive .ph{background:#A6DE91}
   #screen-archive .ph.empty{color:#555}
   #screen-archive .card .meta .no{color:#000}
   #screen-archive .ph .cap{background:rgba(185,239,163,.7); color:#000}
-  #screen-archive .modal-content{background:var(--yellow); color:#000}
-  #screen-archive .modal-content h3, #screen-archive .modal-close{color:#000}
-  #screen-archive .field label, #screen-archive .field .hint{color:#000}
+  #screen-archive .modal-content{background:#F6F2E6; color:#2A2118}
+  #screen-archive .modal-content h3, #screen-archive .modal-close{color:#2A2118}
+  .modal .field label, .modal .field .hint, .modal .send h3, .modal .send p{color:#2A2118}
   #screen-archive .send h3{color:#000}
   #screen-map:not(:visible) .map-area{pointer-events:none}
   .screen > .wrap{padding-top:0px}
@@ -155,7 +160,7 @@
   }
   #screen-map{display:flex; flex-direction:column}
   #screen-map .wrap{flex:0 0 auto}
-  #screen-map .map-area{flex:1 1 auto; min-height:0; display:flex; flex-direction:column}
+  #screen-map .map-area{flex:1 1 auto; min-height:0; display:flex; flex-direction:column; padding-top:0}
   .swipe{font-size:12px; font-weight:600; color:var(--white-soft); text-align:right; padding:10px 20px 16px}
 
   header{padding:26px 0 0}
@@ -180,8 +185,8 @@
 
   /* map — cut here */
   .map-wrap{
-    position:relative; flex:0 0 auto; width:auto; aspect-ratio:16/10;
-    height:auto; max-height:62vh; min-height:200px; margin:0 22px;
+    position:relative; flex:1 1 auto; width:auto; aspect-ratio:16/10;
+    height:auto; min-height:0; margin:0 22px;
     border:0; border-radius:0; overflow:hidden;
     background:#1B1B1E;
   }
@@ -196,10 +201,10 @@
   }
   .city.active circle{fill:var(--white)}
   .city.active .n{fill:var(--pink)}
-  .city text{font-family:inherit; font-size:12px; font-weight:700; fill:#FBF3C4; stroke:none; paint-order:normal; pointer-events:none}
+  .city text{font-family:inherit; font-size:12px; font-weight:400; fill:#F2EFE4; stroke:none; paint-order:normal; pointer-events:none}
   .city .n{font-size:11px; fill:var(--dark-brown); stroke:none; text-anchor:middle; dominant-baseline:central; font-weight:800}
   .home-area{fill:rgba(255,255,255,.10); stroke:var(--white); stroke-width:2; stroke-dasharray:0 5; stroke-linecap:round; vector-effect:non-scaling-stroke}
-  .home-label{font-size:11px; font-weight:600; fill:#FBF3C4; stroke:none; paint-order:normal}
+  .home-label{font-size:11px; font-weight:400; fill:#F2EFE4; stroke:none; paint-order:normal}
   .map-tools{position:absolute; right:10px; bottom:10px; display:flex; gap:6px}
   .map-tools button{
     width:36px; height:36px; border-radius:18px; border:0; background:var(--snail); color:var(--white);
@@ -220,6 +225,7 @@
   .cards{display:grid; grid-template-columns:1fr; gap:0; padding:0; margin:0; list-style:none; border-top:1px solid var(--dots)}
   @media (min-width:420px){ .cards{grid-template-columns:1fr 1fr} }
   .card{border-bottom:1px solid var(--dots); padding:14px 0 18px}
+  .cards > .card:last-child{border-bottom:none}
   @media (min-width:420px){ .card{padding:14px 10px 16px} .card:nth-child(odd){padding-left:0} .card:nth-child(even){padding-right:0} }
   .card .meta{display:flex; justify-content:space-between; align-items:baseline; font-size:15px}
   .card .meta .no{font-weight:900; color:var(--pink); font-size:14px; text-transform:uppercase; letter-spacing:-.01em; white-space:nowrap}
@@ -308,7 +314,7 @@
     .tabs button,.tabsep{font-size:10px}
     .topstrip{font-size:9px; padding:7px 14px; gap:10px}
     .strip-links{gap:12px}
-    .map-wrap{margin:0 12px; aspect-ratio:4/3; max-height:46vh}
+    .map-wrap{margin:0 12px; aspect-ratio:3/2}
     .bigtitle{padding:8px 12px 6px}
     .field label{font-size:12px}
     .field .hint{font-size:11px}
@@ -377,8 +383,8 @@
     position:fixed; inset:0; z-index:11; background:rgba(0,0,0,.5); display:flex; align-items:center; justify-content:center;
   }
   .modal-content{
-    background:var(--olive); padding:32px 24px; border-radius:8px; max-width:400px; position:relative;
-    color:var(--white); max-height:80vh; overflow-y:auto;
+    background:#F6F2E6; border:1px solid #2A2118; padding:32px 24px; border-radius:2px; max-width:400px; position:relative;
+    color:#2A2118; max-height:80vh; overflow-y:auto;
   }
   .modal-close{
     position:absolute; top:12px; right:12px; background:none; border:none; color:var(--white);
@@ -682,13 +688,13 @@ const LAND = {"type":"Topology","objects":{"land":{"type":"GeometryCollection","
     gCities.selectAll('g.city').attr('transform', d => { const p=proj([d.lng,d.lat]); return `translate(${p[0]},${p[1]}) scale(${1/curK})`; });
     gHome.select('text.home-label').attr('transform', `scale(${1/curK})`).attr('y', homeRPx*curK + 14);
   }
-  let zoom = d3.zoom().scaleExtent([1,24])
-    .translateExtent([[-W*0.6,-H*0.6],[W*1.6,H*1.6]])
+  let zoom = d3.zoom().scaleExtent([1,60])
+    .translateExtent([[-W*2,-H*2],[W*3,H*3]])
     .extent([[0,0],[W,H]])
     .on('zoom', ev => { g.attr('transform', ev.transform); if (ev.transform.k !== curK){ curK = ev.transform.k; placeCities(); } });
   svg.call(zoom).on('dblclick.zoom', null);
   function refreshZoomBounds(){
-    zoom.translateExtent([[-W*0.6,-H*0.6],[W*1.6,H*1.6]]).extent([[0,0],[W,H]]);
+    zoom.translateExtent([[-W*2,-H*2],[W*3,H*3]]).extent([[0,0],[W,H]]);
     svg.call(zoom.transform, d3.zoomIdentity);
   }
   $('#zin').onclick = ()=> svg.transition().duration(300).call(zoom.scaleBy, 1.6);
