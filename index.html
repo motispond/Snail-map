@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="2fd1cb8a">
+<meta name="build" content="034d8c92">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Snail Map — Mot</title>
 <meta name="description" content="Small ceramic snails from Mot, and where they went.">
@@ -951,46 +951,45 @@ const LAND = {"type":"Topology","objects":{"land":{"type":"GeometryCollection","
   // the crawling snail's speech bubble — follows wherever it has got to
   const crawler = document.querySelector('.crawler');
 
-  // Each edge gets time in proportion to its length, so the snail travels at one
-  // steady speed all the way round instead of racing along the long edges.
+  // One rAF loop drives both the travel and the facing, so they can never fall
+  // out of step. Speed is constant in pixels per second, so every edge of the
+  // frame takes time in proportion to its length.
   (function crawlAround(){
     if (!crawler) return;
     const img = crawler.querySelector('img');
-    const SIZE = 28, SPEED = 26;   // pixels per second
-    let moveAnim, faceAnim;
-    function start(){
+    if (!img) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const SIZE = 28, SPEED = 26, NUDGE = 3;
+    let dist = 0, last = null;
+
+    // belly against the wall, head first, on each side
+    const FACE = [
+      `translateY(-${NUDGE}px) scaleY(-1)`,                 // top    → heading left
+      `translateX(-${NUDGE}px) rotate(90deg) scaleX(-1)`,   // left   → heading down
+      `translateY(${NUDGE}px) scaleX(-1)`,                  // bottom → heading right
+      `translateX(${NUDGE}px) rotate(-90deg) scaleX(-1)`    // right  → heading up
+    ];
+
+    function frame(now){
+      if (last === null) last = now;
       const W = Math.max(60, window.innerWidth  - SIZE);
       const H = Math.max(60, window.innerHeight - SIZE);
-      const per = 2*(W+H), dur = per/SPEED*1000;
-      const a = W/per, b = (W+H)/per, c = (2*W+H)/per;   // corner offsets
-      if (moveAnim) moveAnim.cancel();
-      if (faceAnim) faceAnim.cancel();
-      moveAnim = crawler.animate([
-        { offset:0, transform:`translate(${W}px, 0px)` },
-        { offset:a, transform:`translate(0px, 0px)` },
-        { offset:b, transform:`translate(0px, ${H}px)` },
-        { offset:c, transform:`translate(${W}px, ${H}px)` },
-        { offset:1, transform:`translate(${W}px, 0px)` }
-      ], { duration:dur, iterations:Infinity, easing:'linear' });
-      faceAnim = img.animate([
-        { offset:0,          transform:'translateY(-3px) scaleY(-1)' },
-        { offset:a-0.0001,   transform:'translateY(-3px) scaleY(-1)' },
-        { offset:a,          transform:'translateX(-3px) rotate(90deg) scaleX(-1)' },
-        { offset:b-0.0001,   transform:'translateX(-3px) rotate(90deg) scaleX(-1)' },
-        { offset:b,          transform:'translateY(3px) scaleX(-1)' },
-        { offset:c-0.0001,   transform:'translateY(3px) scaleX(-1)' },
-        { offset:c,          transform:'translateX(3px) rotate(-90deg) scaleX(-1)' },
-        { offset:1,          transform:'translateX(3px) rotate(-90deg) scaleX(-1)' }
-      ], { duration:dur, iterations:Infinity, easing:'linear' });
+      const per = 2*(W+H);
+      dist = (dist + (now-last)/1000*SPEED) % per;
+      last = now;
+
+      let x, y, side;
+      if (dist < W){                 side = 0; x = W - dist;            y = 0; }
+      else if (dist < W+H){          side = 1; x = 0;                   y = dist - W; }
+      else if (dist < 2*W+H){        side = 2; x = dist - (W+H);        y = H; }
+      else {                         side = 3; x = W;                   y = H - (dist - (2*W+H)); }
+
+      crawler.style.transform = `translate(${x}px, ${y}px)`;
+      img.style.transform = FACE[side];
+      requestAnimationFrame(frame);
     }
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    start();
-    let ct; window.addEventListener('resize', ()=>{
-      // keep where it is rather than snapping back to the corner
-      const at = moveAnim ? (moveAnim.currentTime || 0) : 0;
-      clearTimeout(ct);
-      ct = setTimeout(()=>{ start(); if (moveAnim) moveAnim.currentTime = at % moveAnim.effect.getTiming().duration; }, 200);
-    });
+    requestAnimationFrame(frame);
   })();
   const crawlBubble = $('#crawlBubble');
   function showCrawlBubble(){
