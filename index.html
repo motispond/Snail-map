@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="791c32e9">
+<meta name="build" content="4a050bd8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Snail Map — Mot</title>
 <meta name="description" content="Small ceramic snails from Mot, and where they went.">
@@ -310,12 +310,16 @@
     .card .note{font-size:12px}
     #screen-archive{top:0; bottom:0}
     .bottom-bar{height:32px}
+    body{padding-bottom:32px}
     .bar-btn{font-size:10px}
     .tabs button,.tabsep{font-size:10px}
-    .topstrip{font-size:9px; padding:7px 14px; gap:10px}
-    .strip-links{gap:12px}
-    .map-wrap{margin:0 12px; aspect-ratio:3/2}
-    .bigtitle{padding:8px 12px 6px}
+    .topstrip{font-size:8px; padding:6px 10px; gap:8px; letter-spacing:.04em}
+    .strip-links{gap:10px}
+    .strip-lead{font-size:8px}
+    .subbar{padding:4px 12px 3px}
+    .map-wrap{margin:0 10px; aspect-ratio:auto; flex:1 1 auto; min-height:180px}
+    .bigtitle{padding:0}
+    .sitefoot{padding:4px 12px 4px; font-size:9px}
     .field label{font-size:12px}
     .field .hint{font-size:11px}
     .send h3{font-size:clamp(20px,5vw,32px); margin:0 0 10px}
@@ -368,7 +372,8 @@
     display:flex; gap:0; height:34px; background:#A9DCEF;
     border-top:1px solid #000; border-bottom:0;
   }
-  #screen-map .bottom-bar{position:static}
+  #screen-map .bottom-bar{position:fixed; left:0; right:0; bottom:0; z-index:8}
+  body{padding-bottom:34px}
   #screen-archive .bottom-bar{border-top:1px solid #000; border-bottom:1px solid #000}
   #screen-archive .bar-btn{border-right:1px solid #000; color:#000}
   .bar-btn{
@@ -571,7 +576,7 @@
    ============================================================ */
 const CONFIG = {
   home: { name: "Mot, somewhere in southern Thailand", lat: 7.62, lng: 100.08 },   // distances are measured from here; the map only shows a soft circle, not a pin
-  homeRadiusKm: 70,   // size of the soft circle around Mot
+  homeRadiusKm: 110,   // size of the soft circle around Mot
   sheetCsvUrl: "",
   goalKm: null,
   goalLabel: "of the way to Momo's hometown in Korea",
@@ -717,7 +722,7 @@ const LAND = {"type":"Topology","objects":{"land":{"type":"GeometryCollection","
     const pts = [[CONFIG.home.lng, CONFIG.home.lat], ...cities.map(c=>[c.lng,c.lat])];
     // pad the extent so a single nearby city still shows a region
     let [minX,maxX] = d3.extent(pts, p=>p[0]); let [minY,maxY]=d3.extent(pts,p=>p[1]);
-    const padX = Math.max(1.2, (maxX-minX)*0.18), padY = Math.max(1.2,(maxY-minY)*0.18);
+    const padX = Math.max(0.8, (maxX-minX)*0.12), padY = Math.max(0.8,(maxY-minY)*0.12);
     minX-=padX; maxX+=padX; minY-=padY; maxY+=padY;
     // match the box aspect to the container so the fit isn't driven by height alone
     const availW = Math.max(10, W-24), availH = Math.max(10, H-24);
@@ -749,7 +754,15 @@ const LAND = {"type":"Topology","objects":{"land":{"type":"GeometryCollection","
 
     const homeXY = proj([CONFIG.home.lng, CONFIG.home.lat]);
     gTrails.selectAll('path').data(cities, d=>d.key).join('path').attr('class','trail')
-      .attr('d', d => path({ type:'LineString', coordinates:[[CONFIG.home.lng,CONFIG.home.lat],[d.lng,d.lat]] }));
+      .attr('d', d => {
+        // start each trail at the edge of the circle, not at Mot itself
+        const a = proj([CONFIG.home.lng, CONFIG.home.lat]), b = proj([d.lng, d.lat]);
+        const rPx = Math.abs(proj([CONFIG.home.lng, CONFIG.home.lat + (CONFIG.homeRadiusKm||60)/R*180/Math.PI])[1] - a[1]);
+        const dx = b[0]-a[0], dy = b[1]-a[1], len = Math.hypot(dx,dy) || 1;
+        if (len <= rPx) return null;
+        const sx = a[0] + dx/len*rPx, sy = a[1] + dy/len*rPx;
+        return `M${sx},${sy}L${b[0]},${b[1]}`;
+      });
 
     gHome.html('');
     gHome.attr('transform', `translate(${homeXY[0]},${homeXY[1]})`);
