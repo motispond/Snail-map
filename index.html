@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="ad581866">
+<meta name="build" content="734c8445">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Snail Map — Mot</title>
 <meta name="description" content="Small ceramic snails from Mot, and where they went.">
@@ -520,7 +520,7 @@
         <input type="hidden" name="_subject" value="Message from Snail Map">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_next" value="https://motispond.github.io/Snail-map/?sent=1">
+        <input type="hidden" name="_next" value="https://motispond.github.io/Snail-map/?sent=contact">
         <div class="field">
           <label for="c-name">Your name</label>
           <input type="text" id="c-name" name="name" required>
@@ -971,9 +971,17 @@ const LAND = {"type":"Topology","objects":{"land":{"type":"GeometryCollection","
   }
   
   // URL parameter 처리
-  if (new URLSearchParams(location.search).get('sent')){ 
-    $('#thanks').hidden = false; 
-    archiveModal.classList.add('active');
+  const sentKind = new URLSearchParams(location.search).get('sent');
+  if (sentKind){
+    const msg = $('#thanks').querySelector('.sent');
+    if (sentKind === 'contact'){
+      msg.textContent = "Thank you — your message has arrived. We'll write back soon.";
+      $('#thanks').hidden = false;
+    } else {
+      msg.textContent = 'Thank you — your snail is on its way to the map.';
+      $('#thanks').hidden = false;
+      archiveModal.classList.add('active');
+    }
   }
   let rt; window.addEventListener('resize', ()=>{ clearTimeout(rt); rt=setTimeout(()=>{ sizeMap(); if (cities.length||snails.length) drawMap(); refreshZoomBounds(); }, 120); });
   // the map box gets its real height only after layout settles; re-fit whenever it changes
