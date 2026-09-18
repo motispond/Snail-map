@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="b5c4b182">
+<meta name="build" content="c7cd10be">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Snail Map — Mot</title>
 <meta name="description" content="Small ceramic snails from Mot, and where they went.">
@@ -142,10 +142,33 @@
   #screen-archive .ph .cap{background:rgba(185,239,163,.7); color:#000}
   #screen-archive .modal-content{background:#F6F2E6; color:#3A3A3A}
   #screen-archive .modal-content h3, #screen-archive .modal-close{color:#3A3A3A}
-  .modal .field label, .modal .field .hint, .modal .send h3, .modal .send p,
-  .modal .send a, .modal .or, .modal .intro, .modal .secondary, .modal .modal-close{color:#3A3A3A}
-  .modal .field input, .modal .field textarea{background:#FFFFFF; color:#2A2A2A; border:1px solid #8A8071}
-  .modal .field .hint{color:#6A6A6A}
+  /* everything inside a modal reads dark on the beige panel */
+  .modal .modal-content, .modal .modal-content *{color:#3A3A3A}
+  .modal h3, .modal .send h3{color:#3A3A3A !important}
+  .modal a{color:#3A3A3A !important; text-decoration:underline; text-underline-offset:3px}
+  .modal .modal-close{color:#3A3A3A !important; opacity:1}
+  .modal .field .hint, .modal .or, .modal .secondary{color:#6A6A6A !important}
+
+  /* plain white inputs, no borders */
+  .modal .field input[type=text], .modal .field textarea{
+    background:#FFFFFF !important; color:#2A2A2A !important;
+    border:0 !important; border-radius:3px; padding:11px 12px; width:100%;
+  }
+  .modal .field input[type=text]:focus, .modal .field textarea:focus{outline:2px solid #8A8071; outline-offset:0}
+
+  /* file picker: just the button */
+  .modal .field input[type=file]{
+    background:none !important; border:0 !important; padding:0 !important; color:#3A3A3A !important;
+  }
+  .modal .field input[type=file]::file-selector-button{
+    font:inherit; font-size:12px; font-weight:700; background:#FFFFFF; color:#3A3A3A;
+    border:0; border-radius:999px; padding:9px 16px; cursor:pointer; margin-right:10px;
+  }
+
+  /* submit button */
+  .modal .send button[type=submit]{
+    background:#FFFFFF !important; color:#3A3A3A !important; border:0 !important;
+  }
   #screen-archive .send h3{color:#000}
   #screen-map:not(:visible) .map-area{pointer-events:none}
   .screen > .wrap{padding-top:0px}
@@ -697,7 +720,7 @@ const LAND = {"type":"Topology","objects":{"land":{"type":"GeometryCollection","
     gCities.selectAll('g.city').attr('transform', d => { const p=proj([d.lng,d.lat]); return `translate(${p[0]},${p[1]}) scale(${1/curK})`; });
     gHome.select('text.home-label').attr('transform', `scale(${1/curK})`).attr('y', homeRPx*curK + 14);
   }
-  let zoom = d3.zoom().scaleExtent([1,60])
+  let zoom = d3.zoom().scaleExtent([0.25,60])
     .translateExtent([[-W*2,-H*2],[W*3,H*3]])
     .extent([[0,0],[W,H]])
     .on('zoom', ev => { g.attr('transform', ev.transform); if (ev.transform.k !== curK){ curK = ev.transform.k; placeCities(); } });
@@ -722,23 +745,25 @@ const LAND = {"type":"Topology","objects":{"land":{"type":"GeometryCollection","
     return [...m.values()];
   }
 
+  // The default view is a FIXED window over Thailand, not something derived from
+  // the snail positions — that kept drifting as snails were added or the box resized.
+  const DEFAULT_VIEW = { minLng: 95.4, maxLng: 104.5, minLat: 4.3, maxLat: 16.8 };
   function fitProjection(){
-    const pts = [[CONFIG.home.lng, CONFIG.home.lat], ...cities.map(c=>[c.lng,c.lat])];
-    // pad the extent so a single nearby city still shows a region
-    let [minX,maxX] = d3.extent(pts, p=>p[0]); let [minY,maxY]=d3.extent(pts,p=>p[1]);
-    const padX = Math.max(0.8, (maxX-minX)*0.12), padY = Math.max(0.8,(maxY-minY)*0.12);
-    minX-=padX; maxX+=padX; minY-=padY; maxY+=padY;
-    // match the box aspect to the container so the fit isn't driven by height alone
-    const availW = Math.max(10, W-24), availH = Math.max(10, H-24);
+    let { minLng:minX, maxLng:maxX, minLat:minY, maxLat:maxY } = DEFAULT_VIEW;
+    const availW = Math.max(10, W-16), availH = Math.max(10, H-16);
     const cx=(minX+maxX)/2, cy=(minY+maxY)/2;
     let bw = maxX-minX, bh = maxY-minY;
     const latScale = Math.cos(cy*Math.PI/180) || 1;
     const boxAspect = (bw*latScale)/bh, contAspect = availW/availH;
+    // grow the window on whichever axis has room, so the fixed area always fills the box
     if (contAspect > boxAspect) bw = bh*contAspect/latScale; else bh = (bw*latScale)/contAspect;
     minX = cx-bw/2; maxX = cx+bw/2; minY = cy-bh/2; maxY = cy+bh/2;
-    const fc = { type:'Feature', geometry:{ type:'Polygon', coordinates:[[[minX,minY],[maxX,minY],[maxX,maxY],[minX,maxY],[minX,minY]]] } };
-    proj.fitExtent([[12,12],[W-12,H-12]], fc);
+    // NB: pass the corners as a MultiPoint, never a Polygon. A polygon ring wound the
+    // wrong way makes d3 read it as "everything except this box" and zooms out to the world.
+    const fc = { type:'MultiPoint', coordinates:[[minX,minY],[maxX,minY],[maxX,maxY],[minX,maxY]] };
+    proj.fitExtent([[8,8],[W-8,H-8]], fc);
   }
+
 
   function drawMap(){
     fitProjection();
