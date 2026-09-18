@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="c56b6f31">
+<meta name="build" content="40457384">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Snail Map — Mot</title>
 <meta name="description" content="Small ceramic snails from Mot, and where they went.">
@@ -59,12 +59,11 @@
   .crawler{
     position:fixed; top:0; left:0; width:28px; height:28px; z-index:30;
     cursor:pointer; will-change:transform;
-    animation:crawl-move 120s linear infinite;
   }
   /* the shell rotates; the wrapper only travels, so the bubble can stay upright */
   .crawler img{
     width:100%; height:100%; object-fit:contain; display:block;
-    animation:crawl-face 120s linear infinite, crawl-bob 2.4s ease-in-out infinite;
+    animation:crawl-bob 2.4s ease-in-out infinite;
   }
   @keyframes crawl-move{
     0%   { transform:translate(calc(100vw - 28px), 0); }
@@ -120,9 +119,9 @@
   @media (prefers-reduced-motion:reduce){ .crawler,.crawler img{animation:none} }
   .strip-lead{
     min-width:0; flex:1 1 auto; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-    color:var(--white); font-style:italic;
-    /* line it up with the N of SNAIL MAP, which sits 12.5% into the title */
-    margin-left:calc(12.5vw - 4px);
+    color:var(--white);
+    /* start half way through the S of SNAIL MAP, which sits 5.7% into the title */
+    margin-left:calc(5.7vw - 4px);
   }
   .strip-links{display:flex; gap:18px; white-space:nowrap; flex:0 0 auto}
   .strip-links a{color:var(--white); text-decoration:none}
@@ -944,6 +943,48 @@ const LAND = {"type":"Topology","objects":{"land":{"type":"GeometryCollection","
   const archiveModal = $('#screen-archive');
   // the crawling snail's speech bubble — follows wherever it has got to
   const crawler = document.querySelector('.crawler');
+
+  // Each edge gets time in proportion to its length, so the snail travels at one
+  // steady speed all the way round instead of racing along the long edges.
+  (function crawlAround(){
+    if (!crawler) return;
+    const img = crawler.querySelector('img');
+    const SIZE = 28, SPEED = 26;   // pixels per second
+    let moveAnim, faceAnim;
+    function start(){
+      const W = Math.max(60, window.innerWidth  - SIZE);
+      const H = Math.max(60, window.innerHeight - SIZE);
+      const per = 2*(W+H), dur = per/SPEED*1000;
+      const a = W/per, b = (W+H)/per, c = (2*W+H)/per;   // corner offsets
+      if (moveAnim) moveAnim.cancel();
+      if (faceAnim) faceAnim.cancel();
+      moveAnim = crawler.animate([
+        { offset:0, transform:`translate(${W}px, 0px)` },
+        { offset:a, transform:`translate(0px, 0px)` },
+        { offset:b, transform:`translate(0px, ${H}px)` },
+        { offset:c, transform:`translate(${W}px, ${H}px)` },
+        { offset:1, transform:`translate(${W}px, 0px)` }
+      ], { duration:dur, iterations:Infinity, easing:'linear' });
+      faceAnim = img.animate([
+        { offset:0,          transform:'translateY(-3px) scaleY(-1)' },
+        { offset:a-0.0001,   transform:'translateY(-3px) scaleY(-1)' },
+        { offset:a,          transform:'translateX(-3px) rotate(90deg) scaleX(-1)' },
+        { offset:b-0.0001,   transform:'translateX(-3px) rotate(90deg) scaleX(-1)' },
+        { offset:b,          transform:'translateY(3px) scaleX(-1)' },
+        { offset:c-0.0001,   transform:'translateY(3px) scaleX(-1)' },
+        { offset:c,          transform:'translateX(3px) rotate(-90deg) scaleX(-1)' },
+        { offset:1,          transform:'translateX(3px) rotate(-90deg) scaleX(-1)' }
+      ], { duration:dur, iterations:Infinity, easing:'linear' });
+    }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    start();
+    let ct; window.addEventListener('resize', ()=>{
+      // keep where it is rather than snapping back to the corner
+      const at = moveAnim ? (moveAnim.currentTime || 0) : 0;
+      clearTimeout(ct);
+      ct = setTimeout(()=>{ start(); if (moveAnim) moveAnim.currentTime = at % moveAnim.effect.getTiming().duration; }, 200);
+    });
+  })();
   const crawlBubble = $('#crawlBubble');
   function showCrawlBubble(){
     if (!crawler || !crawlBubble) return;
