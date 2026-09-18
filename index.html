@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="eef10f61">
+<meta name="build" content="b5c4b182">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Snail Map — Mot</title>
 <meta name="description" content="Small ceramic snails from Mot, and where they went.">
@@ -44,9 +44,9 @@
   }
   a{color:var(--white)}
   .wrap{max-width:720px; margin:0 auto; padding:0 20px}
-  html,body{height:auto; min-height:100%; overflow-x:hidden; overflow-y:auto}
+  html,body{height:100%; overflow:hidden}
   *,*::before,*::after{box-sizing:border-box}
-  body{display:flex; flex-direction:column; min-height:100dvh; box-sizing:border-box}
+  body{display:flex; flex-direction:column; height:100dvh; overflow:hidden; box-sizing:border-box}
 
   /* top bar */
   /* thin top strip */
@@ -99,7 +99,7 @@
   .tabs button:focus-visible{outline:3px solid var(--white); outline-offset:2px}
 
   /* two screens, swipe or tab */
-  .screens{display:flex; width:100%; flex:1 1 auto; height:auto; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scroll-behavior:smooth; -webkit-overflow-scrolling:touch; position:relative}
+  .screens{display:flex; width:100%; flex:1 1 auto; height:auto; min-height:0; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scroll-behavior:smooth; -webkit-overflow-scrolling:touch; position:relative}
   @media (prefers-reduced-motion:reduce){ .screens{scroll-behavior:auto} }
   .screen{flex:0 0 100%; width:100%; height:100dvh; scroll-snap-align:start; scroll-snap-stop:always; overflow-y:auto; overflow-x:hidden; position:relative; z-index:1}
   #screen-map{z-index:2; pointer-events:auto; display:flex; flex-direction:column}
@@ -140,9 +140,12 @@
   #screen-archive .ph.empty{color:#555}
   #screen-archive .card .meta .no{color:#000}
   #screen-archive .ph .cap{background:rgba(185,239,163,.7); color:#000}
-  #screen-archive .modal-content{background:#A9DCEF; color:#12384A}
-  #screen-archive .modal-content h3, #screen-archive .modal-close{color:#12384A}
-  .modal .field label, .modal .field .hint, .modal .send h3, .modal .send p{color:#12384A}
+  #screen-archive .modal-content{background:#F6F2E6; color:#3A3A3A}
+  #screen-archive .modal-content h3, #screen-archive .modal-close{color:#3A3A3A}
+  .modal .field label, .modal .field .hint, .modal .send h3, .modal .send p,
+  .modal .send a, .modal .or, .modal .intro, .modal .secondary, .modal .modal-close{color:#3A3A3A}
+  .modal .field input, .modal .field textarea{background:#FFFFFF; color:#2A2A2A; border:1px solid #8A8071}
+  .modal .field .hint{color:#6A6A6A}
   #screen-archive .send h3{color:#000}
   #screen-map:not(:visible) .map-area{pointer-events:none}
   .screen > .wrap{padding-top:0px}
@@ -188,7 +191,7 @@
 
   /* map — cut here */
   .map-wrap{
-    position:relative; flex:1 1 auto; width:auto; aspect-ratio:16/10;
+    position:relative; flex:1 1 auto; width:auto;
     height:auto; min-height:0; margin:0 22px;
     border:0; border-radius:0; overflow:hidden;
     background:#1B1B1E;
@@ -313,14 +316,13 @@
     .card .note{font-size:12px}
     #screen-archive{top:0; bottom:0}
     .bottom-bar{height:32px}
-    body{padding-bottom:32px}
     .bar-btn{font-size:10px}
     .tabs button,.tabsep{font-size:10px}
     .topstrip{font-size:9px; padding:6px 12px; gap:8px; letter-spacing:.04em; justify-content:space-between}
     .strip-links{gap:10px}
     .strip-lead{display:none}
     .subbar{padding:4px 12px 3px}
-    .map-wrap{margin:0 10px; aspect-ratio:auto; flex:1 1 auto; min-height:180px}
+    .map-wrap{margin:0 10px; flex:1 1 auto; min-height:0}
     .bigtitle{padding:0}
     .sitefoot{padding:4px 12px 4px; font-size:9px}
     .field label{font-size:12px}
@@ -375,8 +377,7 @@
     display:flex; gap:0; height:34px; background:#A9DCEF;
     border-top:1px solid #000; border-bottom:0;
   }
-  #screen-map .bottom-bar{position:fixed; left:0; right:0; bottom:0; z-index:8}
-  body{padding-bottom:34px}
+  #screen-map .bottom-bar{position:static; flex:0 0 auto}
   #screen-archive .bottom-bar{border-top:1px solid #000; border-bottom:1px solid #000}
   #screen-archive .bar-btn{border-right:1px solid #000; color:#000}
   .bar-btn{
@@ -391,8 +392,8 @@
     position:fixed; inset:0; z-index:11; background:rgba(0,0,0,.5); display:flex; align-items:center; justify-content:center;
   }
   .modal-content{
-    background:#A9DCEF; border:1px solid #12384A; padding:32px 24px; border-radius:2px; max-width:400px; position:relative;
-    color:#12384A; max-height:80vh; overflow-y:auto;
+    background:#F6F2E6; border:1px solid #2A2118; padding:32px 24px; border-radius:2px; max-width:400px; position:relative;
+    color:#3A3A3A; max-height:80vh; overflow-y:auto;
   }
   .modal-close{
     position:absolute; top:12px; right:12px; background:none; border:none; color:var(--white);
@@ -401,7 +402,7 @@
   .modal-content h3{font-family:"Pangolin",cursive; font-size:28px; font-weight:700; margin:0 0 16px; color:var(--pink)}
   .modal-content p{font-size:14px; line-height:1.6; margin:0}
   
-  #screen-map{margin-bottom:0; display:flex; flex-direction:column}
+  #screen-map{margin-bottom:0; display:flex; flex-direction:column; min-height:0; height:100%}
   #screen-map .bottom-bar{margin-top:0}
 
 </style>
@@ -951,6 +952,8 @@ const LAND = {"type":"Topology","objects":{"land":{"type":"GeometryCollection","
   }
   let rt; window.addEventListener('resize', ()=>{ clearTimeout(rt); rt=setTimeout(()=>{ sizeMap(); if (cities.length||snails.length) drawMap(); refreshZoomBounds(); }, 120); });
   // the map box gets its real height only after layout settles; re-fit whenever it changes
+  window.addEventListener('load', ()=>{ sizeMap(); if (cities.length||snails.length) drawMap(); refreshZoomBounds(); });
+  setTimeout(()=>{ sizeMap(); if (cities.length||snails.length) drawMap(); refreshZoomBounds(); }, 350);
   if (window.ResizeObserver){
     let ro_t, lastW=0, lastH=0;
     new ResizeObserver(entries=>{
