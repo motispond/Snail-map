@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="109af695">
+<meta name="build" content="abb6993a">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Snail Map — Mot</title>
 <meta name="description" content="Small ceramic snails from Mot, and where they went.">
@@ -55,8 +55,8 @@
     font-size:11px; letter-spacing:.08em; text-transform:uppercase; font-weight:600;
   }
   .topstrip img{height:16px; vertical-align:-3px; margin-right:6px}
-  .strip-lead{white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--white)}
-  .strip-links{display:flex; gap:18px; white-space:nowrap}
+  .strip-lead{min-width:0; flex:1 1 auto; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--white)}
+  .strip-links{display:flex; gap:18px; white-space:nowrap; flex:0 0 auto}
   .strip-links a{color:var(--white); text-decoration:none}
   .strip-links a:hover{text-decoration:underline}
   .about-wrap{position:relative; display:inline-block}
@@ -113,7 +113,8 @@
     pointer-events:none;
   }
   #screen-archive.active{transform:translateX(0); pointer-events:auto}
-  #screen-archive .wrap{padding-top:20px; padding-right:58px; max-width:none; width:100%; box-sizing:border-box; margin:0}
+  #screen-archive .wrap{padding:16px 14px 0; max-width:none; width:100%; box-sizing:border-box; margin:0}
+  #screen-archive h2{padding-right:44px}
   #screen-archive .archive-grid{display:block !important}
   #screen-archive .main{width:100%}
   #screen-archive .cards{width:100%}
@@ -179,7 +180,8 @@
 
   /* map — cut here */
   .map-wrap{
-    position:relative; flex:1 1 auto; height:auto; min-height:clamp(300px,52vh,620px); margin:0 22px;
+    position:relative; flex:0 0 auto; width:auto; aspect-ratio:16/10;
+    height:auto; max-height:62vh; min-height:200px; margin:0 22px;
     border:0; border-radius:0; overflow:hidden;
     background:#1B1B1E;
   }
@@ -194,10 +196,10 @@
   }
   .city.active circle{fill:var(--white)}
   .city.active .n{fill:var(--pink)}
-  .city text{font-family:inherit; font-size:12px; font-weight:700; fill:var(--white); paint-order:stroke; stroke:var(--snail); stroke-width:3px; stroke-linejoin:round; pointer-events:none}
+  .city text{font-family:inherit; font-size:12px; font-weight:700; fill:#FBF3C4; stroke:none; paint-order:normal; pointer-events:none}
   .city .n{font-size:11px; fill:var(--dark-brown); stroke:none; text-anchor:middle; dominant-baseline:central; font-weight:800}
   .home-area{fill:rgba(255,255,255,.10); stroke:var(--white); stroke-width:2; stroke-dasharray:0 5; stroke-linecap:round; vector-effect:non-scaling-stroke}
-  .home-label{font-size:11px; font-weight:600; fill:var(--white); paint-order:stroke; stroke:var(--snail); stroke-width:3px; stroke-linejoin:round}
+  .home-label{font-size:11px; font-weight:600; fill:#FBF3C4; stroke:none; paint-order:normal}
   .map-tools{position:absolute; right:10px; bottom:10px; display:flex; gap:6px}
   .map-tools button{
     width:36px; height:36px; border-radius:18px; border:0; background:var(--snail); color:var(--white);
@@ -218,7 +220,7 @@
   .cards{display:grid; grid-template-columns:1fr; gap:0; padding:0; margin:0; list-style:none; border-top:1px solid var(--dots)}
   @media (min-width:420px){ .cards{grid-template-columns:1fr 1fr} }
   .card{border-bottom:1px solid var(--dots); padding:14px 0 18px}
-  @media (min-width:420px){ .card{padding:14px 14px 18px} .card:nth-child(odd){padding-left:0} .card:nth-child(even){padding-right:0} }
+  @media (min-width:420px){ .card{padding:14px 10px 16px} .card:nth-child(odd){padding-left:0} .card:nth-child(even){padding-right:0} }
   .card .meta{display:flex; justify-content:space-between; align-items:baseline; font-size:15px}
   .card .meta .no{font-weight:900; color:var(--pink); font-size:14px; text-transform:uppercase; letter-spacing:-.01em; white-space:nowrap}
   .card .meta .when{color:var(--white-soft); font-size:13px}
@@ -280,7 +282,7 @@
   @media (max-width:768px){
     .bar-title h1{font-size:clamp(15px,3.2vw,20px)}
     .bar-title .lead{font-size:9px}
-    #screen-archive{width:100vw}
+    #screen-archive{width:100vw; top:0; bottom:0}
     .map-info{width:calc(100% - 32px); max-width:none; left:16px; top:16px; bottom:auto}
     .map-area{top:70px}
     .card .where{font-size:11px}
@@ -300,10 +302,14 @@
     .lead{font-size:12px}
     .card{padding:12px 10px 16px}
     .card .note{font-size:12px}
-    #screen-archive{top:60px; bottom:60px}
+    #screen-archive{top:0; bottom:0}
     .bottom-bar{height:32px}
     .bar-btn{font-size:10px}
     .tabs button,.tabsep{font-size:10px}
+    .topstrip{font-size:9px; padding:7px 14px; gap:10px}
+    .strip-links{gap:12px}
+    .map-wrap{margin:0 12px; aspect-ratio:4/3; max-height:46vh}
+    .bigtitle{padding:8px 12px 6px}
     .field label{font-size:12px}
     .field .hint{font-size:11px}
     .send h3{font-size:clamp(20px,5vw,32px); margin:0 0 10px}
@@ -444,7 +450,7 @@
   </section>
 
   <section class="screen" id="screen-archive" role="tabpanel" aria-labelledby="tab-archive">
-    <button id="archiveClose" style="position:absolute; top:14px; right:16px; z-index:15; background:none; border:none; color:#000; font-size:26px; line-height:1; cursor:pointer; width:34px; height:34px; padding:0;">✕</button>
+    <button id="archiveClose" style="position:absolute; top:12px; right:12px; z-index:15; background:none; border:none; color:#000; font-size:26px; line-height:1; cursor:pointer; width:34px; height:34px; padding:0;">✕</button>
     <div class="wrap" id="thanks" hidden><p class="sent">Thank you — your snail is on its way to the map.</p></div>
     <div class="wrap archive-grid">
       <div class="main">
@@ -676,7 +682,7 @@ const LAND = {"type":"Topology","objects":{"land":{"type":"GeometryCollection","
     gCities.selectAll('g.city').attr('transform', d => { const p=proj([d.lng,d.lat]); return `translate(${p[0]},${p[1]}) scale(${1/curK})`; });
     gHome.select('text.home-label').attr('transform', `scale(${1/curK})`).attr('y', homeRPx*curK + 14);
   }
-  let zoom = d3.zoom().scaleExtent([1,8])
+  let zoom = d3.zoom().scaleExtent([1,24])
     .translateExtent([[-W*0.6,-H*0.6],[W*1.6,H*1.6]])
     .extent([[0,0],[W,H]])
     .on('zoom', ev => { g.attr('transform', ev.transform); if (ev.transform.k !== curK){ curK = ev.transform.k; placeCities(); } });
@@ -705,10 +711,18 @@ const LAND = {"type":"Topology","objects":{"land":{"type":"GeometryCollection","
     const pts = [[CONFIG.home.lng, CONFIG.home.lat], ...cities.map(c=>[c.lng,c.lat])];
     // pad the extent so a single nearby city still shows a region
     let [minX,maxX] = d3.extent(pts, p=>p[0]); let [minY,maxY]=d3.extent(pts,p=>p[1]);
-    const padX = Math.max(2, (maxX-minX)*0.2), padY = Math.max(2,(maxY-minY)*0.2);
+    const padX = Math.max(1.2, (maxX-minX)*0.18), padY = Math.max(1.2,(maxY-minY)*0.18);
     minX-=padX; maxX+=padX; minY-=padY; maxY+=padY;
+    // match the box aspect to the container so the fit isn't driven by height alone
+    const availW = Math.max(10, W-24), availH = Math.max(10, H-24);
+    const cx=(minX+maxX)/2, cy=(minY+maxY)/2;
+    let bw = maxX-minX, bh = maxY-minY;
+    const latScale = Math.cos(cy*Math.PI/180) || 1;
+    const boxAspect = (bw*latScale)/bh, contAspect = availW/availH;
+    if (contAspect > boxAspect) bw = bh*contAspect/latScale; else bh = (bw*latScale)/contAspect;
+    minX = cx-bw/2; maxX = cx+bw/2; minY = cy-bh/2; maxY = cy+bh/2;
     const fc = { type:'Feature', geometry:{ type:'Polygon', coordinates:[[[minX,minY],[maxX,minY],[maxX,maxY],[minX,maxY],[minX,minY]]] } };
-    proj.fitExtent([[24,24],[W-24,H-24]], fc);
+    proj.fitExtent([[12,12],[W-12,H-12]], fc);
   }
 
   function drawMap(){
@@ -814,20 +828,28 @@ const LAND = {"type":"Topology","objects":{"land":{"type":"GeometryCollection","
   if (contactLink) contactLink.addEventListener('click', e=>{ e.preventDefault(); contactModal.style.display='flex'; });
   if (contactModal) contactModal.addEventListener('click', e=>{ if (e.target === contactModal) contactModal.style.display='none'; });
 
-  // tap the map to close the snails panel / about bubble
-  const mapScreen = $('#screen-map');
-  if (mapScreen){
-    mapScreen.addEventListener('pointerdown', ()=>{
-      hideAbout();
-      const ar = $('#screen-archive');
-      if (ar && ar.classList.contains('active')){
-        ar.classList.remove('active');
-        const tm = $('#tab-map'), ta = $('#tab-archive');
-        if (tm) tm.setAttribute('aria-selected','true');
-        if (ta) ta.setAttribute('aria-selected','false');
-      }
-    }, true);
+  // tap anywhere outside the panel to close it
+  function closeArchive(){
+    const ar = $('#screen-archive');
+    if (ar && ar.classList.contains('active')){
+      ar.classList.remove('active');
+      const tm = $('#tab-map'), ta = $('#tab-archive');
+      if (tm) tm.setAttribute('aria-selected','true');
+      if (ta) ta.setAttribute('aria-selected','false');
+    }
   }
+  document.addEventListener('pointerdown', (e)=>{
+    const ar = $('#screen-archive');
+    if (!ar || !ar.classList.contains('active')) { return; }
+    if (ar.contains(e.target)) return;                 // inside the panel
+    if (e.target.closest && e.target.closest('.modal')) return;  // a modal is open
+    if (e.target.closest && e.target.closest('#tab-archive')) return;
+    closeArchive();
+  }, true);
+  document.addEventListener('pointerdown', (e)=>{
+    const w = document.querySelector('.about-wrap');
+    if (w && !w.contains(e.target)) hideAbout();
+  }, true);
 
   const findModal = $('#findModal');
   const sendModal = $('#sendModal');
