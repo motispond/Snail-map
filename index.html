@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="4a050bd8">
+<meta name="build" content="eef10f61">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Snail Map — Mot</title>
 <meta name="description" content="Small ceramic snails from Mot, and where they went.">
@@ -45,7 +45,8 @@
   a{color:var(--white)}
   .wrap{max-width:720px; margin:0 auto; padding:0 20px}
   html,body{height:auto; min-height:100%; overflow-x:hidden; overflow-y:auto}
-  body{display:flex; flex-direction:column; min-height:100dvh}
+  *,*::before,*::after{box-sizing:border-box}
+  body{display:flex; flex-direction:column; min-height:100dvh; box-sizing:border-box}
 
   /* top bar */
   /* thin top strip */
@@ -103,7 +104,7 @@
   .screen{flex:0 0 100%; width:100%; height:100dvh; scroll-snap-align:start; scroll-snap-stop:always; overflow-y:auto; overflow-x:hidden; position:relative; z-index:1}
   #screen-map{z-index:2; pointer-events:auto; display:flex; flex-direction:column}
   #screen-map > .wrap{order:1}
-  #screen-map .map-area{order:2; flex:1}
+  #screen-map .map-area{order:2; flex:1; padding:0; margin:0}
   #screen-map .bottom-bar{order:3}
   #screen-archive{
     position:fixed !important; right:0; top:0; bottom:0; width:min(94vw,640px); max-width:100vw;
@@ -134,12 +135,14 @@
     #screen-archive .cards > .card:nth-last-child(-n+2):nth-child(odd) ~ .card{border-bottom:none !important}
   }
   #screen-archive .ph{background:#A6DE91}
+  .ph.failed{display:flex; align-items:center; justify-content:center}
+  .ph.failed .cap{position:static; margin:0}
   #screen-archive .ph.empty{color:#555}
   #screen-archive .card .meta .no{color:#000}
   #screen-archive .ph .cap{background:rgba(185,239,163,.7); color:#000}
-  #screen-archive .modal-content{background:#F6F2E6; color:#2A2118}
-  #screen-archive .modal-content h3, #screen-archive .modal-close{color:#2A2118}
-  .modal .field label, .modal .field .hint, .modal .send h3, .modal .send p{color:#2A2118}
+  #screen-archive .modal-content{background:#A9DCEF; color:#12384A}
+  #screen-archive .modal-content h3, #screen-archive .modal-close{color:#12384A}
+  .modal .field label, .modal .field .hint, .modal .send h3, .modal .send p{color:#12384A}
   #screen-archive .send h3{color:#000}
   #screen-map:not(:visible) .map-area{pointer-events:none}
   .screen > .wrap{padding-top:0px}
@@ -290,7 +293,7 @@
     .bar-title .lead{font-size:9px}
     #screen-archive{width:100vw; top:0; bottom:0}
     .map-info{width:calc(100% - 32px); max-width:none; left:16px; top:16px; bottom:auto}
-    .map-area{top:70px}
+    .map-area{top:auto}
     .card .where{font-size:11px}
     .card .glaze{font-size:11px}
     .card .meta .no{font-size:13px}
@@ -313,9 +316,9 @@
     body{padding-bottom:32px}
     .bar-btn{font-size:10px}
     .tabs button,.tabsep{font-size:10px}
-    .topstrip{font-size:8px; padding:6px 10px; gap:8px; letter-spacing:.04em}
+    .topstrip{font-size:9px; padding:6px 12px; gap:8px; letter-spacing:.04em; justify-content:space-between}
     .strip-links{gap:10px}
-    .strip-lead{font-size:8px}
+    .strip-lead{display:none}
     .subbar{padding:4px 12px 3px}
     .map-wrap{margin:0 10px; aspect-ratio:auto; flex:1 1 auto; min-height:180px}
     .bigtitle{padding:0}
@@ -388,8 +391,8 @@
     position:fixed; inset:0; z-index:11; background:rgba(0,0,0,.5); display:flex; align-items:center; justify-content:center;
   }
   .modal-content{
-    background:#F6F2E6; border:1px solid #2A2118; padding:32px 24px; border-radius:2px; max-width:400px; position:relative;
-    color:#2A2118; max-height:80vh; overflow-y:auto;
+    background:#A9DCEF; border:1px solid #12384A; padding:32px 24px; border-radius:2px; max-width:400px; position:relative;
+    color:#12384A; max-height:80vh; overflow-y:auto;
   }
   .modal-close{
     position:absolute; top:12px; right:12px; background:none; border:none; color:var(--white);
@@ -678,7 +681,7 @@ const LAND = {"type":"Topology","objects":{"land":{"type":"GeometryCollection","
   const svg = d3.select('#map');
   let W=720, H=520;
   const mapWrap = document.querySelector('.map-wrap');
-  function sizeMap(){ W = Math.max(320, mapWrap.clientWidth); H = Math.max(260, mapWrap.clientHeight); svg.attr('viewBox',`0 0 ${W} ${H}`); }
+  function sizeMap(){ W = Math.max(160, mapWrap.clientWidth || 320); H = Math.max(140, mapWrap.clientHeight || 260); svg.attr('viewBox',`0 0 ${W} ${H}`); }
   sizeMap();
   const g = svg.append('g');
   const proj = d3.geoMercator();
@@ -794,9 +797,21 @@ const LAND = {"type":"Topology","objects":{"land":{"type":"GeometryCollection","
   /* ---------- list ---------- */
   const snailIcon = `<img src="${SNAIL_PNG}" alt="">`;
 
+  window.snailImgFallback = function(img){
+    // Drive thumbnails sometimes rate-limit; try the alternate host, then give up quietly
+    const id = (img.src.match(/[?&]id=([^&]+)/) || [])[1] || (img.src.match(/\/d\/([^=\/]+)/) || [])[1];
+    if (id && !img.dataset.retried){
+      img.dataset.retried = '1';
+      img.src = 'https://lh3.googleusercontent.com/d/' + id + '=w1200';
+      return;
+    }
+    const box = img.closest('.ph');
+    if (box){ box.classList.add('failed'); img.remove(); }
+  };
+
   function card(s){
     const ph = (src, label, empty) => src
-      ? `<div class="ph"><img loading="lazy" src="${src}" alt="${label} — snail ${s.no}"><span class="cap">${label}</span></div>`
+      ? `<div class="ph"><img loading="lazy" src="${src}" alt="${label} — snail ${s.no}" onerror="snailImgFallback(this)"><span class="cap">${label}</span></div>`
       : `<div class="ph empty">${snailIcon}<span>${empty}</span></div>`;
     const d = s.date ? new Date(s.date+'T00:00:00') : null;
     const when = d && !isNaN(d) ? d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : '';
@@ -935,6 +950,17 @@ const LAND = {"type":"Topology","objects":{"land":{"type":"GeometryCollection","
     archiveModal.classList.add('active');
   }
   let rt; window.addEventListener('resize', ()=>{ clearTimeout(rt); rt=setTimeout(()=>{ sizeMap(); if (cities.length||snails.length) drawMap(); refreshZoomBounds(); }, 120); });
+  // the map box gets its real height only after layout settles; re-fit whenever it changes
+  if (window.ResizeObserver){
+    let ro_t, lastW=0, lastH=0;
+    new ResizeObserver(entries=>{
+      const r = entries[0].contentRect;
+      if (Math.abs(r.width-lastW) < 2 && Math.abs(r.height-lastH) < 2) return;
+      lastW = r.width; lastH = r.height;
+      clearTimeout(ro_t);
+      ro_t = setTimeout(()=>{ sizeMap(); if (cities.length||snails.length) drawMap(); refreshZoomBounds(); }, 60);
+    }).observe(mapWrap);
+  }
   $('#clear').onclick = ()=> setActive(null);
 
   /* ---------- totals ---------- */
