@@ -2,7 +2,7 @@
 <html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="c761302f">
+<meta name="build" content="42527cd3">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Snail Map — Mot</title>
 <meta name="description" content="Small ceramic snails from Mot, and where they went.">
@@ -709,14 +709,14 @@ const LAND = {"type":"Topology","objects":{"land":{"type":"GeometryCollection","
     const t = topo.transform, arcs = topo.arcs;
     function arc(i){
       const rev = i < 0; const a = arcs[rev ? ~i : i];
-      let x=0,y=0; const out=[{"no":"9","city":"Bangkok","country":"Thailand","lat":13.7563,"lng":100.5018,"date":"","adopted_by":"Ing","photo_out":"https://drive.google.com/thumbnail?id=1uLq_QPGkO3uC-PcjGFusMoLCIxc9iSzm&sz=w1200","photo_in":"","note":""}];
+      let x=0,y=0; const out=[];
       for (const p of a){ x+=p[0]; y+=p[1]; out.push(t ? [x*t.scale[0]+t.translate[0], y*t.scale[1]+t.translate[1]] : [x,y]); }
       return rev ? out.reverse() : out;
     }
-    function ring(idx){ let pts=[{"no":"9","city":"Bangkok","country":"Thailand","lat":13.7563,"lng":100.5018,"date":"","adopted_by":"Ing","photo_out":"https://drive.google.com/thumbnail?id=1uLq_QPGkO3uC-PcjGFusMoLCIxc9iSzm&sz=w1200","photo_in":"","note":""}]; idx.forEach((i,k)=>{ const a=arc(i); pts = k? pts.concat(a.slice(1)) : a; }); return pts; }
+    function ring(idx){ let pts=[]; idx.forEach((i,k)=>{ const a=arc(i); pts = k? pts.concat(a.slice(1)) : a; }); return pts; }
     const obj = topo.objects[name];
     const geoms = obj.type === 'GeometryCollection' ? obj.geometries : [obj];
-    const polys = [{"no":"9","city":"Bangkok","country":"Thailand","lat":13.7563,"lng":100.5018,"date":"","adopted_by":"Ing","photo_out":"https://drive.google.com/thumbnail?id=1uLq_QPGkO3uC-PcjGFusMoLCIxc9iSzm&sz=w1200","photo_in":"","note":""}];
+    const polys = [];
     for (const g of geoms){
       if (g.type === 'Polygon') polys.push(g.arcs.map(ring));
       else if (g.type === 'MultiPolygon') g.arcs.forEach(p => polys.push(p.map(ring)));
@@ -805,13 +805,13 @@ const LAND = {"type":"Topology","objects":{"land":{"type":"GeometryCollection","
   $('#zout').onclick = ()=> svg.transition().duration(300).call(zoom.scaleBy, 1/1.6);
   $('#zfit').onclick = ()=> svg.transition().duration(400).call(zoom.transform, d3.zoomIdentity);
 
-  let activeCity = null, cities = [{"no":"9","city":"Bangkok","country":"Thailand","lat":13.7563,"lng":100.5018,"date":"","adopted_by":"Ing","photo_out":"https://drive.google.com/thumbnail?id=1uLq_QPGkO3uC-PcjGFusMoLCIxc9iSzm&sz=w1200","photo_in":"","note":""}], snails = [{"no":"9","city":"Bangkok","country":"Thailand","lat":13.7563,"lng":100.5018,"date":"","adopted_by":"Ing","photo_out":"https://drive.google.com/thumbnail?id=1uLq_QPGkO3uC-PcjGFusMoLCIxc9iSzm&sz=w1200","photo_in":"","note":""}];
+  let activeCity = null, cities = [], snails = [];
 
   function groupCities(list){
     const m = new Map();
     for (const s of list){
       const key = s.city+'|'+s.country;
-      if (!m.has(key)) m.set(key,{ key, city:s.city, country:s.country, lat:s.lat, lng:s.lng, snails:[{"no":"9","city":"Bangkok","country":"Thailand","lat":13.7563,"lng":100.5018,"date":"","adopted_by":"Ing","photo_out":"https://drive.google.com/thumbnail?id=1uLq_QPGkO3uC-PcjGFusMoLCIxc9iSzm&sz=w1200","photo_in":"","note":""}] });
+      if (!m.has(key)) m.set(key,{ key, city:s.city, country:s.country, lat:s.lat, lng:s.lng, snails:[] });
       m.get(key).snails.push(s);
     }
     return [...m.values()];
@@ -897,7 +897,7 @@ const LAND = {"type":"Topology","objects":{"land":{"type":"GeometryCollection","
 
   window.snailImgFallback = function(img){
     // Drive thumbnails sometimes rate-limit; try the alternate host, then give up quietly
-    const id = (img.src.match(/[?&]id=([^&]+)/) || [{"no":"9","city":"Bangkok","country":"Thailand","lat":13.7563,"lng":100.5018,"date":"","adopted_by":"Ing","photo_out":"https://drive.google.com/thumbnail?id=1uLq_QPGkO3uC-PcjGFusMoLCIxc9iSzm&sz=w1200","photo_in":"","note":""}])[1] || (img.src.match(/\/d\/([^=\/]+)/) || [{"no":"9","city":"Bangkok","country":"Thailand","lat":13.7563,"lng":100.5018,"date":"","adopted_by":"Ing","photo_out":"https://drive.google.com/thumbnail?id=1uLq_QPGkO3uC-PcjGFusMoLCIxc9iSzm&sz=w1200","photo_in":"","note":""}])[1];
+    const id = (img.src.match(/[?&]id=([^&]+)/) || [])[1] || (img.src.match(/\/d\/([^=\/]+)/) || [])[1];
     if (id && !img.dataset.retried){
       img.dataset.retried = '1';
       img.src = 'https://lh3.googleusercontent.com/d/' + id + '=w1200';
